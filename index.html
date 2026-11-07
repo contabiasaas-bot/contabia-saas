@@ -401,7 +401,39 @@
   function fecharModalCliente() {
     document.getElementById('modal-novo-cliente').classList.add('hidden');
   }
+// Função de Login Real validada pelo Supabase Auth
+  async function entrarNoSistema() {
+    const email = document.getElementById('login-email').value;
+    const senha = document.getElementById('login-senha').value;
+    const escritorio = document.getElementById('login-escritorio').value;
 
+    if (!email || !senha) {
+      alert('Por favor, preencha o e-mail e a senha.');
+      return;
+    }
+
+    // Tenta autenticar no Supabase
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: senha
+    });
+
+    if (error) {
+      alert('Erro no acesso: E-mail ou senha incorretos!');
+      console.error(error.message);
+      return;
+    }
+
+    // Se as credenciais estiverem corretas, entra no painel
+    document.getElementById('txt-escritorio-ativo').innerText = escritorio.split(' ')[0] + ' ' + (escritorio.split(' ')[1] || '');
+    document.getElementById('tela-login').style.display = 'none';
+  }
+
+  // Função de Logout Real
+  async function fazerLogout() {
+    await supabaseClient.auth.signOut();
+    document.getElementById('tela-login').style.display = 'flex';
+  }
   function salvarNovoCliente() {
     const nome = document.getElementById('form-nome').value;
     if(!nome) {
