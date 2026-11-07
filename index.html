@@ -182,31 +182,37 @@
   let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67)";
   let listaClientesSupabase = [];
 
-  // Função Centralizada de Conexão com o Google Gemini 1.5 Flash
-  async function chamarGeminiAPI(promptCompleto) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+ // Função Centralizada de Conexão com o Google Gemini (Robusta e Segura)
+async function chamarGeminiAPI(promptCompleto) {
+    // Usando a versão v1 e o endpoint oficial com suporte a chaves públicas web
+    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
     
     try {
-      const resposta = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: promptCompleto }] }]
-        })
-      });
+        const resposta = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: promptCompleto }] }]
+            })
+        });
 
-      const dados = await resposta.json();
-      if (dados.candidates && dados.candidates.length > 0) {
-        return dados.candidates[0].content.parts[0].text;
-      } else {
-        console.error("Erro retornado pela API Gemini:", dados);
-        return null;
-      }
+        const dados = await resposta.json();
+        
+        // Verifica se veio resposta válida
+        if (dados.candidates && dados.candidates[0]?.content?.parts?.[0]?.text) {
+            return dados.candidates[0].content.parts[0].text;
+        } else if (dados.error) {
+            console.error("Erro retornado pelo Google AI Studio:", dados.error.message);
+            return `Erro da API: ${dados.error.message}`;
+        } else {
+            console.error("Estrutura inesperada:", dados);
+            return null;
+        }
     } catch (erro) {
-      console.error("Falha na chamada à API Gemini:", erro);
-      return null;
+        console.error("Falha na chamada à API Gemini:", erro);
+        return null;
     }
-  }
+}
 
   async function carregarDadosSupabase() {
     try {
