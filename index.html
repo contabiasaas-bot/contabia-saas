@@ -1,16 +1,24 @@
 <!-- Carregamento do Tailwind CSS -->
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContábIA SaaS</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans h-screen overflow-hidden">
 
 <div id="app" class="h-screen bg-slate-900 text-slate-100 font-sans flex flex-col">
 
   <!-- TELA DE LOGIN / ACESSO (Multi-Tenant) -->
- <div class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
-  <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 w-full max-w-md space-y-6 shadow-2xl">
-    <div class="text-center space-y-2">
-      <div class="inline-block p-3 bg-blue-600/20 text-blue-400 rounded-2xl text-3xl font-bold">✨</div>
-      <h1 class="text-2xl font-bold text-white">ContábIA SaaS</h1>
-      <p class="text-xs text-slate-400">Plataforma Contábil Inteligente com Gemini 1.5 Flash</p>
-    </div>
+  <div id="tela-login" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 w-full max-w-md space-y-6 shadow-2xl">
+      <div class="text-center space-y-2">
+        <div class="inline-block p-3 bg-blue-600/20 text-blue-400 rounded-2xl text-3xl font-bold">✨</div>
+        <h1 class="text-2xl font-bold text-white">ContábIA SaaS</h1>
+        <p class="text-xs text-slate-400">Plataforma Contábil Inteligente com Gemini 1.5 Flash</p>
+      </div>
 
       <div class="space-y-4">
         <div>
@@ -22,27 +30,26 @@
           </select>
         </div>
 
-<div>
-  <label class="text-xs text-slate-400 block mb-1">E-mail Profissional</label>
-  <input type="email" value="" placeholder="seu@email.com" 
-         class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-600">
-</div>
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">E-mail Profissional</label>
+          <input type="email" value="" placeholder="seu@email.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-600">
+        </div>
 
-<div>
-  <label class="text-xs text-slate-400 block mb-1">Senha de Acesso</label>
-  <input type="password" value="" placeholder="••••••••" 
-         class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-600">
-</div>
+        <div>
+          <label class="text-xs text-slate-400 block mb-1">Senha de Acesso</label>
+          <input type="password" value="" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-600">
+        </div>
 
-<button onclick="entrarNoSistema()" 
-        class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-blue-600/30">
-  Entrar no Sistema (Área Segura)
-</button>
+        <button onclick="entrarNoSistema()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-blue-600/30">
+          Entrar no Sistema (Área Segura)
+        </button>
 
-<div class="text-center">
-  <span class="text-xs text-slate-500">Isolamento Multi-Tenant Ativo &bull; Criptografia de Ponta</span>
-</div>
-
+        <div class="text-center">
+          <span class="text-xs text-slate-500">Isolamento Multi-Tenant Ativo &bull; Criptografia de Ponta</span>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- MODAL DE NOVO CLIENTE (MANUAL) -->
   <div id="modal-novo-cliente" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-lg space-y-4 shadow-2xl">
