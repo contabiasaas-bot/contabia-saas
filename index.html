@@ -181,7 +181,6 @@
   let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67)";
   let listaClientesSupabase = [];
 
-  // Carregar dados reais do Supabase ao iniciar
   async function carregarDadosSupabase() {
     try {
       const { data, error } = await supabaseClient.from('clientes_tenant').select('*');
@@ -189,7 +188,6 @@
         console.error('Erro ao buscar do Supabase:', error);
       } else if (data && data.length > 0) {
         listaClientesSupabase = data;
-        console.log('Dados carregados com sucesso do Supabase:', data);
       }
     } catch (err) {
       console.error('Falha na conexão com Supabase:', err);
@@ -197,7 +195,6 @@
   }
   carregarDadosSupabase();
 
-  // Objeto com as 9 Telas / Módulos do Sistema
   const telas = {
     dashboard: () => `
       <div class="flex-1 p-6 overflow-y-auto space-y-6">
@@ -360,7 +357,7 @@
         <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-3">
           <div>
             <label class="text-slate-400 block mb-1">Chave API Google Gemini 1.5 Flash</label>
-            <input type="password" id="input-gemini-key" value="AIzaSy-MockKeyForEnterpriseAccounting123" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white">
+            <input type="password" id="input-gemini-key" value="AQ.Ab8RN6KRkM0W2jnf9g47VmSyQrfQRRyS_csZUUoc54Z4vRNRLg" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white">
           </div>
           <div>
             <label class="text-slate-400 block mb-1">URL Conexão Supabase (Multi-Tenant DB)</label>
@@ -372,7 +369,6 @@
     `
   };
 
-  // Funções de Navegação e Gestão
   function acederWorkspaceCliente(nomeCliente) {
     clienteAtual = nomeCliente;
     document.getElementById('seletor-cliente-topo').value = nomeCliente;
@@ -384,24 +380,6 @@
     mudarAba('dashboard', document.querySelector('#menu-modulos button'));
   }
 
-  function entrarNoSistema() {
-    const escritorio = document.getElementById('login-escritorio').value;
-    document.getElementById('txt-escritorio-ativo').innerText = escritorio.split(' ')[0] + ' ' + (escritorio.split(' ')[1] || '');
-    document.getElementById('tela-login').style.display = 'none';
-  }
-
-  function fazerLogout() {
-    document.getElementById('tela-login').style.display = 'flex';
-  }
-
-  function abrirModalCliente() {
-    document.getElementById('modal-novo-cliente').classList.remove('hidden');
-  }
-
-  function fecharModalCliente() {
-    document.getElementById('modal-novo-cliente').classList.add('hidden');
-  }
-// Função de Login Real validada pelo Supabase Auth
   async function entrarNoSistema() {
     const email = document.getElementById('login-email').value;
     const senha = document.getElementById('login-senha').value;
@@ -412,7 +390,6 @@
       return;
     }
 
-    // Tenta autenticar no Supabase
     const { data, error } = await supabaseClient.auth.signInWithPassword({
       email: email,
       password: senha
@@ -424,16 +401,23 @@
       return;
     }
 
-    // Se as credenciais estiverem corretas, entra no painel
     document.getElementById('txt-escritorio-ativo').innerText = escritorio.split(' ')[0] + ' ' + (escritorio.split(' ')[1] || '');
     document.getElementById('tela-login').style.display = 'none';
   }
 
-  // Função de Logout Real
   async function fazerLogout() {
     await supabaseClient.auth.signOut();
     document.getElementById('tela-login').style.display = 'flex';
   }
+
+  function abrirModalCliente() {
+    document.getElementById('modal-novo-cliente').classList.remove('hidden');
+  }
+
+  function fecharModalCliente() {
+    document.getElementById('modal-novo-cliente').classList.add('hidden');
+  }
+
   function salvarNovoCliente() {
     const nome = document.getElementById('form-nome').value;
     if(!nome) {
@@ -456,20 +440,57 @@
     }
   }
 
-  // Simulação interativa da chamada ao Gemini API no Chat de Auditoria
-  function perguntarParaGemini() {
+  // CHAMADA REAL À API DO GOOGLE GEMINI 1.5 FLASH
+  async function perguntarParaGemini() {
     const input = document.getElementById('input-pergunta-ia');
     const historico = document.getElementById('chat-historico');
-    if(!input.value.trim()) return;
+    const pergunta = input.value.trim();
+    
+    if (!pergunta) return;
 
-    const pergunta = input.value;
     historico.innerHTML += `<p class="text-right text-white"><strong class="text-emerald-400">Você:</strong> ${pergunta}</p>`;
     input.value = '';
+    historico.scrollTop = historico.scrollHeight;
 
-    setTimeout(() => {
-      historico.innerHTML += `<p><strong class="text-blue-400">🤖 Gemini 1.5 Flash:</strong> Com base nos dados fiscais de ${clienteAtual.split(' ')[0]} registados na base de dados, a conformidade tributária está regular e otimizada para o regime atual.</p>`;
-      historico.scrollTop = historico.scrollHeight;
-    }, 1000);
+    const idCarregando = "loading-" + Date.now();
+    historico.innerHTML += `<p id="${idCarregando}"><strong class="text-blue-400">🤖 Gemini 1.5 Flash:</strong> A analisar normas contabilísticas e dados de ${clienteAtual.split(' ')[0]}...</p>`;
+    historico.scrollTop = historico.scrollHeight;
+
+    const GEMINI_API_KEY = "AQ.Ab8RN6KRkM0W2jnf9g47VmSyQrfQRRyS_csZUUoc54Z4vRNRLg";
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+    const promptContexto = `Aja como um auditor fiscal e contabilista senior especialista na legislação brasileira e normas CFC. O cliente ativo no workspace é ${clienteAtual}. Responda à seguinte dúvida técnica de forma profissional, clara e direta: ${pergunta}`;
+
+    try {
+      const resposta = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: promptContexto }]
+          }]
+        })
+      });
+
+      const dados = await resposta.json();
+      document.getElementById(idCarregando).remove();
+
+      if (dados.candidates && dados.candidates.length > 0) {
+        const respostaIA = dados.candidates[0].content.parts[0].text;
+        historico.innerHTML += `<p><strong class="text-blue-400">🤖 Gemini 1.5 Flash:</strong> ${respostaIA.replace(/\n/g, '<br>')}</p>`;
+      } else {
+        console.error("Erro retornado pela API:", dados);
+        historico.innerHTML += `<p class="text-red-400"><strong>Erro:</strong> A API do Gemini não retornou nenhuma resposta válida.</p>`;
+      }
+    } catch (erro) {
+      console.error("Falha na requisição:", erro);
+      document.getElementById(idCarregando).remove();
+      historico.innerHTML += `<p class="text-red-400"><strong>Erro de Conexão:</strong> Não foi possível comunicar com o servidor do Google Gemini.</p>`;
+    }
+
+    historico.scrollTop = historico.scrollHeight;
   }
 
   function mudarAba(nomeAba, elemento) {
@@ -499,7 +520,6 @@
     }
   }
 
-  // Inicializa no Dashboard
   mudarAba('dashboard', document.querySelector('#menu-modulos button'));
 </script>
 </body>
