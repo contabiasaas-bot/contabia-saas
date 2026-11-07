@@ -4,13 +4,13 @@
 <div id="app" class="h-screen bg-slate-900 text-slate-100 font-sans flex flex-col">
 
   <!-- TELA DE LOGIN / ACESSO (Multi-Tenant) -->
-  <div id="tela-login" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 w-full max-w-md space-y-6 shadow-2xl">
-      <div class="text-center space-y-2">
-        <div class="inline-block p-3 bg-blue-600/20 text-blue-400 rounded-2xl text-3xl font-bold">✨</div>
-        <h1 class="text-2xl font-bold text-white">ContábIA SaaS</h1>
-        <p class="text-xs text-slate-400">Plataforma Contábil Inteligente com Gemini 1.5 Flash</p>
-      </div>
+ <div class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 w-full max-w-md space-y-6 shadow-2xl">
+    <div class="text-center space-y-2">
+      <div class="inline-block p-3 bg-blue-600/20 text-blue-400 rounded-2xl text-3xl font-bold">✨</div>
+      <h1 class="text-2xl font-bold text-white">ContábIA SaaS</h1>
+      <p class="text-xs text-slate-400">Plataforma Contábil Inteligente com Gemini 1.5 Flash</p>
+    </div>
 
       <div class="space-y-4">
         <div>
@@ -22,26 +22,26 @@
           </select>
         </div>
 
-        <div>
-          <label class="text-xs text-slate-400 block mb-1">E-mail Profissional</label>
-          <input type="email" value="elisete.pires@kgcontabilidade.com.br" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500" />
-        </div>
+<div>
+  <label class="text-xs text-slate-400 block mb-1">E-mail Profissional</label>
+  <input type="email" value="" placeholder="seu@email.com" 
+         class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-600">
+</div>
 
-        <div>
-          <label class="text-xs text-slate-400 block mb-1">Senha de Acesso</label>
-          <input type="password" value="••••••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500" />
-        </div>
+<div>
+  <label class="text-xs text-slate-400 block mb-1">Senha de Acesso</label>
+  <input type="password" value="" placeholder="••••••••" 
+         class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-600">
+</div>
 
-        <button onclick="entrarNoSistema()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition shadow-lg shadow-blue-600/20">
-          Entrar no Sistema (Área Segura)
-        </button>
-      </div>
+<button onclick="entrarNoSistema()" 
+        class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-blue-600/30">
+  Entrar no Sistema (Área Segura)
+</button>
 
-      <div class="text-center">
-        <span class="text-xs text-slate-500">Isolamento Multi-Tenant Ativo &bull; Criptografia de Ponta</span>
-      </div>
-    </div>
-  </div>
+<div class="text-center">
+  <span class="text-xs text-slate-500">Isolamento Multi-Tenant Ativo &bull; Criptografia de Ponta</span>
+</div>
 
   <!-- MODAL DE NOVO CLIENTE (MANUAL) -->
   <div id="modal-novo-cliente" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
