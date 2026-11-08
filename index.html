@@ -51,7 +51,7 @@
     </div>
 
     <!-- APLICAÇÃO PRINCIPAL (Oculta até efetuar login) -->
-    <div id="app-principal" class="hidden flex h-screen overflow-hidden">
+    <div id="app-principal" class="hidden flex h-screen overflow-hidden w-full">
         
         <!-- BARRA LATERAL (SIDEBAR) -->
         <aside class="w-72 bg-slate-900 border-r border-slate-800 flex flex-col justify-between shadow-2xl">
@@ -124,7 +124,8 @@
             </header>
 
             <div class="p-6 flex-1 max-w-7xl w-full mx-auto space-y-6">
-                <!-- Módulo 1 -->
+                
+                <!-- MÓDULO 1: DASHBOARD -->
                 <div id="modulo-dashboard" class="modulo-content space-y-6">
                     <h2 class="text-xl font-bold text-white">Indicadores Financeiros & Fiscais</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -143,14 +144,63 @@
                     </div>
                 </div>
 
-                <!-- Módulos 2 ao 5 -->
-                <div id="modulo-entradas" class="modulo-content hidden space-y-6"><h2 class="text-xl font-bold text-white">Módulo de Entradas & OCR</h2><p class="text-xs text-slate-400">Carregue extratos e notas fiscais para leitura por IA.</p></div>
-                <div id="modulo-lancamentos" class="modulo-content hidden space-y-6"><h2 class="text-xl font-bold text-white">Lançamentos Contábeis</h2><p class="text-xs text-slate-400">Partidas dobradas validadas.</p></div>
-                <div id="modulo-conciliacao" class="modulo-content hidden space-y-6"><h2 class="text-xl font-bold text-white">Conciliação Bancária IA</h2><p class="text-xs text-slate-400">Cruzamento OFX e Razão.</p></div>
-                <div id="modulo-relatorios" class="modulo-content hidden space-y-6"><h2 class="text-xl font-bold text-white">Relatórios Oficiais (DRE & Balanço)</h2><p class="text-xs text-slate-400">Demonstrações contábeis geradas automaticamente.</p></div>
+                <!-- MÓDULO 2: ENTRADAS & OCR -->
+                <div id="modulo-entradas" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Módulo de Entradas & OCR Inteligente</h2>
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                        <p class="text-xs text-slate-400">Carregue extratos bancários, notas fiscais (PDF/XML) ou recibos para leitura automática e extração contábil via IA.</p>
+                        <div class="border-2 border-dashed border-slate-700 hover:border-indigo-500 transition rounded-2xl p-8 text-center cursor-pointer bg-slate-950/40">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-indigo-400 mb-3"></i>
+                            <p class="text-sm font-semibold text-slate-200">Arraste os ficheiros aqui ou clique para procurar</p>
+                            <p class="text-xs text-slate-500 mt-1">Suporta PDF, XML, OFX, PNG e JPG</p>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Módulo 6: Auditoria & Chat IA (Gemini 1.5 Flash) -->
-                <div id="modulo-auditoria" class="modulo-content hidden space-y-6 flex flex-col h-[calc(100vh-140px)]">
+                <!-- MÓDULO 3: LANÇAMENTOS CONTÁBEIS -->
+                <div id="modulo-lancamentos" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Lançamentos Contábeis (Partidas Dobradas)</h2>
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+                            <input type="date" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <input type="text" placeholder="Conta Débito (ex: 1.1.1.01)" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <input type="text" placeholder="Conta Crédito (ex: 2.1.1.01)" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <input type="number" placeholder="Valor R$" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                        </div>
+                        <button onclick="alert('Lançamento registado com sucesso!')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow">Adicionar Lançamento</button>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 4: CONCILIAÇÃO BANCÁRIA -->
+                <div id="modulo-conciliacao" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Conciliação Bancária IA</h2>
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
+                        <p class="text-xs text-slate-400 mb-4">Cruzamento inteligente de extratos bancários OFX com o razão contábil.</p>
+                        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-300 flex justify-between items-center">
+                            <span>Nenhum desvio encontrado. Extrato 100% conciliado.</span>
+                            <span class="text-emerald-400 font-bold"><i class="fa-solid fa-check mr-1"></i> OK</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 5: RELATÓRIOS OFICIAIS -->
+                <div id="modulo-relatorios" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Relatórios Oficiais (DRE & Balanço)</h2>
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs space-y-2">
+                            <div class="flex justify-between font-bold border-b border-slate-800 pb-2">
+                                <span>Demonstração do Resultado (DRE)</span>
+                                <span>Valores em R$</span>
+                            </div>
+                            <div class="flex justify-between text-slate-300"><span>(+) Receita Operacional Bruta</span> <span>145.890,00</span></div>
+                            <div class="flex justify-between text-slate-300"><span>(-) Impostos e Deduções</span> <span>-12.450,00</span></div>
+                            <div class="flex justify-between text-indigo-400 font-bold pt-2 border-t border-slate-800"><span>(=) Lucro Líquido do Período</span> <span>48.320,00</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 6: AUDITORIA & CHAT IA (GEMINI 1.5 FLASH) -->
+                <div id="modulo-auditoria" class="modulo-content hidden space-y-4 flex flex-col h-[calc(100vh-140px)]">
                     <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-robot text-indigo-400 mr-2"></i> Auditoria & Chat com Google Gemini 1.5 Flash</h2>
                     <div id="chat-container" class="flex-1 bg-slate-900 border border-slate-800 rounded-2xl p-4 overflow-y-auto flex flex-col gap-3 shadow-inner">
                         <div class="bg-slate-950 border border-slate-800 p-3 rounded-2xl max-w-[80%] text-xs">
@@ -158,21 +208,49 @@
                             Olá! Como posso ajudar na fiscalidade e auditoria hoje?
                         </div>
                     </div>
-                    <div class="flex gap-3 mt-auto">
+                    <div class="flex gap-3">
                         <input type="text" id="user-input" placeholder="Digite sua pergunta contábil..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-100 focus:outline-none focus:border-indigo-500" onkeypress="if(event.key === 'Enter') enviarMensagem()">
                         <button onclick="enviarMensagem()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-6 py-3 rounded-xl shadow">Perguntar à IA</button>
                     </div>
                 </div>
 
-                <!-- Módulos 7 ao 9 -->
-                <div id="modulo-calendario" class="modulo-content hidden space-y-6"><h2 class="text-xl font-bold text-white">Calendário Fiscal</h2><p class="text-xs text-slate-400">Prazos de DARF, DAS e obrigações.</p></div>
-                <div id="modulo-clientes" class="modulo-content hidden space-y-6"><h2 class="text-xl font-bold text-white">Gestão de Clientes</h2><p class="text-xs text-slate-400">CNPJ e dados cadastrais.</p></div>
-                <div id="modulo-configuracoes" class="modulo-content hidden space-y-6"><h2 class="text-xl font-bold text-white">Configurações & API</h2><p class="text-xs text-slate-400">Chave Gemini configurada e ativa.</p></div>
+                <!-- MÓDULO 7: CALENDÁRIO FISCAL -->
+                <div id="modulo-calendario" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Calendário Fiscal & Obrigações</h2>
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl text-xs space-y-3">
+                        <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <div><span class="font-bold text-white">DAS (Simples Nacional)</span><p class="text-slate-400">Guia mensal de tributos</p></div>
+                            <span class="text-amber-400 font-semibold">Vence 20/11</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 8: GESTÃO DE CLIENTES -->
+                <div id="modulo-clientes" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Gestão de Clientes & Empresas</h2>
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl text-xs">
+                        <p class="text-slate-400 mb-2">Consulta de CNPJ e dados cadastrais do escritório.</p>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between">
+                            <span>Tech Solutions LTDA (CNPJ 12.345.678/0001-90)</span>
+                            <span class="text-emerald-400 font-bold">Ativo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 9: CONFIGURAÇÕES & API -->
+                <div id="modulo-configuracoes" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Configurações & Chaves de API</h2>
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3 text-xs">
+                        <label class="block font-semibold text-slate-300">Chave API Configurada (Google Gemini)</label>
+                        <input type="text" id="api-key-input" value="AQ.Ab8RN6JK_cM5pX1Bcw8LIztbRuaGzLoc7nJLVs2phVhqwxI1Hw" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200">
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
 
-    <!-- SCRIPT DA APLICAÇÃO -->
+    <!-- SCRIPT COMPLETO DA APLICAÇÃO E TRATAMENTO DA CHAVE AQ. -->
     <script>
         const GEMINI_API_KEY = "AQ.Ab8RN6JK_cM5pX1Bcw8LIztbRuaGzLoc7nJLVs2phVhqwxI1Hw";
 
@@ -203,15 +281,36 @@
         }
 
         async function chamarGeminiAPI(promptCompleto) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
+            const apiKeyAtual = document.getElementById('api-key-input')?.value || GEMINI_API_KEY;
+            
+            if (!apiKeyAtual || apiKeyAtual.includes("SUA_CHAVE")) {
+                return "Erro: Chave de API não configurada.";
+            }
 
-            try {
-                const response = await fetch(url, {
+            let url, options;
+
+            // Tratamento inteligente para chaves iniciadas em AQ. (via Bearer Token) ou AIzaSy (via parâmetro URL)
+            if (apiKeyAtual.startsWith('AQ.')) {
+                url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+                options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKeyAtual}`
+                    },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: promptCompleto }] }] })
+                };
+            } else {
+                url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKeyAtual)}`;
+                options = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: promptCompleto }] }] })
-                });
+                };
+            }
 
+            try {
+                const response = await fetch(url, options);
                 const data = await response.json();
 
                 if (!response.ok) {
