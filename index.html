@@ -1,546 +1,410 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ContábIA SaaS - Plataforma Contábil com IA</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <!-- Supabase JS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContábIA SaaS - Plataforma Completa de Contabilidade com IA</title>
+    <!-- Tailwind CSS para Estilização Moderna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans h-screen overflow-hidden">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
 
-<div id="app" class="h-screen bg-slate-900 text-slate-100 font-sans flex flex-col">
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- BARRA LATERAL (SIDEBAR) -->
+        <aside class="w-72 bg-slate-900 border-r border-slate-800 flex flex-col justify-between hidden md:flex shadow-2xl">
+            <div>
+                <!-- Logo & Branding -->
+                <div class="p-5 border-b border-slate-800 flex items-center space-x-3 bg-slate-900/50">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-xl shadow-lg shadow-indigo-500/20">
+                        <i class="fa-solid fa-calculator text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-base tracking-wide text-white">ContábIA SaaS</h1>
+                        <p class="text-xs text-indigo-400 font-medium">KG Contabilidade & IA</p>
+                    </div>
+                </div>
 
-  <!-- TELA DE LOGIN / ACESSO (Multi-Tenant) -->
-  <div id="tela-login" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 w-full max-w-md space-y-6 shadow-2xl">
-      <div class="text-center space-y-2">
-        <div class="inline-block p-3 bg-blue-600/20 text-blue-400 rounded-2xl text-3xl font-bold">✨</div>
-        <h1 class="text-2xl font-bold text-white">ContábIA SaaS</h1>
-        <p class="text-xs text-slate-400">Plataforma Contábil Inteligente com Gemini 1.5 Flash</p>
-      </div>
+                <!-- Seletor de Cliente Ativo -->
+                <div class="p-4 border-b border-slate-800">
+                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Cliente Selecionado</label>
+                    <select class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+                        <option>Tech Solutions LTDA (CNPJ 12.345.678/0001-90)</option>
+                        <option>Comércio de Alimentos Silva (CNPJ 98.765.432/0001-12)</option>
+                        <option>Indústria Metalúrgica RS (CNPJ 45.123.789/0001-55)</option>
+                    </select>
+                </div>
 
-      <div class="space-y-4">
-        <div>
-          <label class="text-xs text-slate-400 block mb-1">Selecione o Escritório (Tenant)</label>
-          <select id="login-escritorio" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500">
-            <option value="Contabilidade Silva & Associados">Contabilidade Silva & Associados (SP)</option>
-            <option value="Pires & Consultores Fiscais">Pires & Consultores Fiscais (RS)</option>
-            <option value="Auditoria & Contabilidade Global">Auditoria & Contabilidade Global (RJ)</option>
-          </select>
-        </div>
+                <!-- Navegação dos Módulos -->
+                <nav class="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-250px)] custom-scroll">
+                    <button onclick="mudarModulo('dashboard')" id="btn-dashboard" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition bg-indigo-600 text-white shadow-md shadow-indigo-600/30">
+                        <i class="fa-solid fa-chart-pie w-5 text-center"></i> <span>1. Dashboard Geral</span>
+                    </button>
+                    <button onclick="mudarModulo('entradas')" id="btn-entradas" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                        <i class="fa-solid fa-file-arrow-up w-5 text-center"></i> <span>2. Módulo de Entradas & OCR</span>
+                    </button>
+                    <button onclick="mudarModulo('lancamentos')" id="btn-lancamentos" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                        <i class="fa-solid fa-book-journal-whills w-5 text-center"></i> <span>3. Lançamentos Contábeis</span>
+                    </button>
+                    <button onclick="mudarModulo('conciliacao')" id="btn-conciliacao" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                        <i class="fa-solid fa-scale-balanced w-5 text-center"></i> <span>4. Conciliação Bancária IA</span>
+                    </button>
+                    <button onclick="mudarModulo('relatorios')" id="btn-relatorios" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                        <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i> <span>5. Relatórios Oficiais IA</span>
+                    </button>
+                    <button onclick="mudarModulo('auditoria')" id="btn-auditoria" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                        <i class="fa-solid fa-robot w-5 text-center"></i> <span>6. Auditoria & Chat IA</span>
+                    </button>
+                    <button onclick="mudarModulo('calendario')" id="btn-calendario" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                        <i class="fa-solid fa-calendar-days w-5 text-center"></i> <span>7. Calendário Fiscal</span>
+                    </button>
+                    <button onclick="mudarModulo('clientes')" id="btn-clientes" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                        <i class="fa-solid fa-users w-5 text-center"></i> <span>8. Gestão de Clientes</span>
+                    </button>
+                    <button onclick="mudarModulo('configuracoes')" id="btn-configuracoes" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                        <i class="fa-solid fa-gears w-5 text-center"></i> <span>9. Configurações & API</span>
+                    </button>
+                </nav>
+            </div>
 
-        <div>
-          <label class="text-xs text-slate-400 block mb-1">E-mail Profissional</label>
-          <input type="email" id="login-email" placeholder="seu@email.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-600">
-        </div>
+            <!-- Rodapé da Barra Lateral -->
+            <div class="p-4 border-t border-slate-800 flex items-center justify-between bg-slate-900/80">
+                <div class="text-xs">
+                    <p class="text-slate-400 font-medium">Contabilidade</p>
+                    <p class="text-emerald-400 font-semibold"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Supabase & Gemini Ativos</p>
+                </div>
+                <button onclick="alert('Sessão encerrada com segurança.')" class="text-slate-400 hover:text-rose-400 transition" title="Sair">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </aside>
 
-        <div>
-          <label class="text-xs text-slate-400 block mb-1">Senha de Acesso</label>
-          <input type="password" id="login-senha" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-600">
-        </div>
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-slate-950">
+            
+            <!-- Topbar Principal -->
+            <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 px-6 py-3.5 flex justify-between items-center sticky top-0 z-20 shadow-md">
+                <div class="flex items-center space-x-4">
+                    <span id="titulo-pagina" class="text-base font-bold text-white tracking-wide">1. Dashboard Geral</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-right hidden sm:block">
+                        <span class="block text-[10px] uppercase font-semibold text-slate-400">Contador Responsável</span>
+                        <span class="text-xs font-bold text-indigo-300">CRC/RS - Contábil KG</span>
+                    </div>
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center font-bold justify-center text-white text-xs shadow-md">
+                        KG
+                    </div>
+                </div>
+            </header>
 
-        <button type="button" onclick="entrarNoSistema()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-blue-600/30">
-          Entrar no Sistema (Área Segura)
-        </button>
+            <!-- CONTAINER DOS MÓDULOS -->
+            <div class="p-6 flex-1 max-w-7xl w-full mx-auto space-y-6">
+                
+                <!-- MÓDULO 1: DASHBOARD GERAL -->
+                <div id="modulo-dashboard" class="modulo-content space-y-6">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl font-bold text-white">Indicadores Financeiros & Fiscais</h2>
+                        <span class="text-xs bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-lg text-slate-300">Atualizado em tempo real</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-xl">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-semibold text-slate-400 uppercase">Receita Consolidada</span>
+                                <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                            </div>
+                            <h3 class="text-2xl font-black text-emerald-400">R$ 145.890,00</h3>
+                            <p class="text-[11px] text-slate-500 mt-1">+12.4% comparado ao mês anterior</p>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-xl">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-semibold text-slate-400 uppercase">Impostos a Vencer</span>
+                                <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            </div>
+                            <h3 class="text-2xl font-black text-amber-400">R$ 12.450,00</h3>
+                            <p class="text-[11px] text-slate-500 mt-1">Vencimento dia 20/11 (Simples/DARF)</p>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-xl">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-semibold text-slate-400 uppercase">Documentos OCR</span>
+                                <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center"><i class="fa-solid fa-file-lines"></i></div>
+                            </div>
+                            <h3 class="text-2xl font-black text-indigo-400">328 Itens</h3>
+                            <p class="text-[11px] text-slate-500 mt-1">100% conciliados por IA</p>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-xl">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-semibold text-slate-400 uppercase">Lucro Líquido (DRE)</span>
+                                <div class="w-8 h-8 rounded-lg bg-violet-500/10 text-violet-400 flex items-center justify-center"><i class="fa-solid fa-wallet"></i></div>
+                            </div>
+                            <h3 class="text-2xl font-black text-violet-400">R$ 48.320,00</h3>
+                            <p class="text-[11px] text-slate-500 mt-1">Margem Líquida de 33.1%</p>
+                        </div>
+                    </div>
 
-        <div class="text-center">
-          <span class="text-xs text-slate-500">Supabase DB &bull; Gemini AI Ativo</span>
-        </div>
-      </div>
+                    <!-- Resumo Recente -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                        <h3 class="text-sm font-bold text-white mb-4">Últimas Atividades de Auditoria Contábil</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/50 border border-slate-800/60 text-xs">
+                                <div class="flex items-center space-x-3">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                    <span>Conciliação OFX do Banco Itaú concluída com sucesso.</span>
+                                </div>
+                                <span class="text-slate-500">Há 15 minutos</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-950/50 border border-slate-800/60 text-xs">
+                                <div class="flex items-center space-x-3">
+                                    <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                                    <span>OCR processou 45 Notas Fiscais Eletrônicas (NFe).</span>
+                                </div>
+                                <span class="text-slate-500">Há 1 hora</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 2: ENTRADAS & OCR -->
+                <div id="modulo-entradas" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Módulo de Entradas & OCR Inteligente</h2>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                        <p class="text-xs text-slate-400">Carregue extratos bancários, notas fiscais (PDF/XML) ou recibos para leitura automática e extração contábil via IA.</p>
+                        <div class="border-2 border-dashed border-slate-700 hover:border-indigo-500 transition rounded-2xl p-8 text-center cursor-pointer bg-slate-950/40">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-indigo-400 mb-3"></i>
+                            <p class="text-sm font-semibold text-slate-200">Arraste os ficheiros aqui ou clique para procurar</p>
+                            <p class="text-xs text-slate-500 mt-1">Suporta PDF, XML, OFX, PNG e JPG</p>
+                            <input type="file" multiple class="hidden" id="file-upload">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 3: LANÇAMENTOS CONTÁBEIS -->
+                <div id="modulo-lancamentos" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Lançamentos Contábeis (Partidas Dobradas)</h2>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+                            <input type="date" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <input type="text" placeholder="Conta Débito (ex: 1.1.1.01)" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <input type="text" placeholder="Conta Crédito (ex: 2.1.1.01)" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <input type="number" placeholder="Valor R$" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                        </div>
+                        <button onclick="alert('Lançamento registado com sucesso!')" class="bg-indigo-600 hover:bg-indigo-500 transition text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow">
+                            <i class="fa-solid fa-plus mr-2"></i> Adicionar Lançamento
+                        </button>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 4: CONCILIAÇÃO BANCÁRIA -->
+                <div id="modulo-conciliacao" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Conciliação Bancária Automatizada por IA</h2>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                        <p class="text-xs text-slate-400 mb-4">Cruzamento inteligente de extratos bancários OFX com o razão contábil.</p>
+                        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-300 flex justify-between items-center">
+                            <span>Nenhum desvio encontrado. Extrato 100% conciliado.</span>
+                            <span class="text-emerald-400 font-bold"><i class="fa-solid fa-check mr-1"></i> OK</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 5: RELATÓRIOS OFICIAIS -->
+                <div id="modulo-relatorios" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Relatórios Oficiais (Balanço Patrimonial & DRE)</h2>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                        <div class="flex gap-3">
+                            <button class="bg-indigo-600 text-white text-xs font-semibold px-4 py-2 rounded-xl">DRE Gerencial</button>
+                            <button class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl">Balanço Patrimonial</button>
+                            <button class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl">Razão Analítico</button>
+                        </div>
+                        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs space-y-2">
+                            <div class="flex justify-between font-bold border-b border-slate-800 pb-2">
+                                <span>Demonstração do Resultado (DRE)</span>
+                                <span>Valores em R$</span>
+                            </div>
+                            <div class="flex justify-between text-slate-300"><span>(+) Receita Operacional Bruta</span> <span>145.890,00</span></div>
+                            <div class="flex justify-between text-slate-300"><span>(-) Deduções e Impostos (Simples Nacional)</span> <span>-12.450,00</span></div>
+                            <div class="flex justify-between text-slate-300"><span>(=) Receita Operacional Líquida</span> <span class="font-bold">133.440,00</span></div>
+                            <div class="flex justify-between text-slate-300"><span>(-) Custos dos Serviços Prestados</span> <span>-45.120,00</span></div>
+                            <div class="flex justify-between text-indigo-400 font-bold pt-2 border-t border-slate-800"><span>(=) Lucro Líquido do Período</span> <span>48.320,00</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 6: AUDITORIA & CHAT IA (GEMINI 1.5 FLASH) -->
+                <div id="modulo-auditoria" class="modulo-content hidden space-y-6">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col h-[calc(100vh-200px)]">
+                        <div class="mb-4">
+                            <h2 class="text-xl font-bold text-white flex items-center space-x-2">
+                                <i class="fa-solid fa-robot text-indigo-400"></i>
+                                <span>Auditoria & Chat Inteligente com Google Gemini 1.5 Flash</span>
+                            </h2>
+                            <p class="text-xs text-slate-400 mt-1">Converse diretamente com o assistente especializado em auditoria, balancetes, normas IFRS e fiscalidade brasileira.</p>
+                        </div>
+
+                        <!-- Chat Caixa de Mensagens -->
+                        <div id="chat-container" class="flex-1 bg-slate-950 border border-slate-800 rounded-2xl p-4 overflow-y-auto flex flex-col gap-3 custom-scroll mb-4 shadow-inner">
+                            <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl max-w-[85%] self-start text-xs space-y-1">
+                                <span class="font-bold text-indigo-400 block"><i class="fa-solid fa-robot mr-1"></i> Assistente Contábil:</span>
+                                <p class="text-slate-200">Olá! Estou conectado ao motor Gemini 1.5 Flash. Como posso ajudar nas análises fiscais ou orientações de conformidade hoje?</p>
+                            </div>
+                        </div>
+
+                        <!-- Input de Mensagem -->
+                        <div class="flex gap-3">
+                            <input 
+                                type="text" 
+                                id="user-input" 
+                                placeholder="Faça uma pergunta fiscal, ex: Qual a alíquota do ISS para serviços em Cachoeirinha-RS?" 
+                                class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-100 focus:outline-none focus:border-indigo-500"
+                                onkeypress="if(event.key === 'Enter') enviarMensagem()"
+                            >
+                            <button 
+                                onclick="enviarMensagem()" 
+                                class="bg-indigo-600 hover:bg-indigo-500 transition text-white text-xs font-semibold px-6 py-3 rounded-xl shadow-lg shadow-indigo-600/20 flex items-center space-x-2"
+                            >
+                                <span>Perguntar à IA</span>
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 7: CALENDÁRIO FISCAL -->
+                <div id="modulo-calendario" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Calendário Fiscal & Obrigações Acessórias</h2>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-3 text-xs">
+                        <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <div><span class="font-bold text-white">DAS (Simples Nacional)</span><p class="text-slate-400">Guia mensal de tributos</p></div>
+                            <span class="bg-amber-500/10 text-amber-400 px-3 py-1 rounded-lg font-semibold">Vence 20/11</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <div><span class="font-bold text-white">DCTFWeb</span><p class="text-slate-400">Declaração de Débitos e Créditos Tributários</p></div>
+                            <span class="bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-lg font-semibold">Vence 15/11</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 8: GESTÃO DE CLIENTES -->
+                <div id="modulo-clientes" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Gestão de Clientes & Empresas</h2>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                        <p class="text-xs text-slate-400 mb-4">Consulte dados cadastrais, situação fiscal e histórico de honorários.</p>
+                        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs flex justify-between items-center">
+                            <div><span class="font-bold text-white">Tech Solutions LTDA</span><p class="text-slate-400">CNPJ: 12.345.678/0001-90 | Regime: Simples Nacional</p></div>
+                            <span class="text-emerald-400 font-bold">Ativo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO 9: CONFIGURAÇÕES & API -->
+                <div id="modulo-configuracoes" class="modulo-content hidden space-y-6">
+                    <h2 class="text-xl font-bold text-white">Configurações & Integração API</h2>
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Chave API do Google Gemini (AI Studio)</label>
+                            <input type="password" id="api-key-input" value="AQ.Ab8RN6JK_cM5pX1Bcw8LIztbRuaGzLoc7nJLVs2phVhqwxI1Hw" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <button onclick="alert('Configurações guardadas com sucesso!')" class="bg-indigo-600 hover:bg-indigo-500 transition text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow">
+                            Salvar Alterações
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
     </div>
-  </div>
 
-  <!-- MODAL DE NOVO CLIENTE -->
-  <div id="modal-novo-cliente" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-lg space-y-4 shadow-2xl">
-      <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-        <h3 class="font-bold text-white text-base">Cadastrar Novo Cliente Manualmente</h3>
-        <button type="button" onclick="fecharModalCliente()" class="text-slate-400 hover:text-white text-sm">✕</button>
-      </div>
-      <div class="space-y-3 text-xs">
-        <div>
-          <label class="text-slate-400 block mb-1">Nome da Empresa / Razão Social</label>
-          <input type="text" id="form-nome" placeholder="Ex: Inovação Comércio LTDA" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white" />
-        </div>
-        <div>
-          <label class="text-slate-400 block mb-1">CNPJ</label>
-          <input type="text" id="form-cnpj" placeholder="00.000.000/0001-00" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white" />
-        </div>
-        <div>
-          <label class="text-slate-400 block mb-1">Regime Tributário</label>
-          <select id="form-regime" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white">
-            <option>Simples Nacional</option>
-            <option>Lucro Presumido</option>
-            <option>Lucro Real</option>
-            <option>MEI</option>
-          </select>
-        </div>
-      </div>
-      <div class="flex justify-end space-x-2 pt-2">
-        <button type="button" onclick="fecharModalCliente()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium">Cancelar</button>
-        <button type="button" onclick="salvarNovoCliente()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-medium">Salvar Cliente</button>
-      </div>
-    </div>
-  </div>
+    <!-- SCRIPT DE NAVEGAÇÃO E INTEGRAÇÃO GEMINI 1.5 FLASH -->
+    <script>
+        const GEMINI_API_KEY = "AQ.Ab8RN6JK_cM5pX1Bcw8LIztbRuaGzLoc7nJLVs2phVhqwxI1Hw";
 
-  <!-- APLICAÇÃO PRINCIPAL -->
-  <div class="flex flex-1 overflow-hidden">
-    <!-- Menu Lateral -->
-    <aside class="w-64 bg-slate-950 border-r border-slate-800 flex flex-col justify-between">
-      <div>
-        <div class="p-5 border-b border-slate-800 flex items-center space-x-3">
-          <div class="p-2 bg-blue-600 rounded-lg text-white font-bold text-xl">✨</div>
-          <div>
-            <h1 class="font-bold text-sm leading-tight text-white">ContábIA SaaS</h1>
-            <span class="text-[10px] text-blue-400 font-medium">Plataforma com IA Real</span>
-          </div>
-        </div>
+        function mudarModulo(idModulo) {
+            document.querySelectorAll('.modulo-content').forEach(mod => mod.classList.add('hidden'));
+            document.querySelectorAll('aside nav button').forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-600/30');
+                btn.classList.add('text-slate-300', 'hover:bg-slate-800', 'hover:text-white');
+            });
 
-        <div class="p-3 border-b border-slate-800/60">
-          <label class="text-[10px] text-slate-400 block mb-1 uppercase font-semibold">Cliente Selecionado</label>
-          <select id="seletor-cliente-topo" onchange="mudarClienteManual(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-white">
-            <option value="Tech Solutions LTDA (CNPJ 12.345.67)">Tech Solutions LTDA (CNPJ 12.345.67)</option>
-            <option value="Comércio Silva EIRELI (CNPJ 98.765.43)">Comércio Silva EIRELI (CNPJ 98.765.43)</option>
-          </select>
-        </div>
-
-        <nav id="menu-modulos" class="p-2 space-y-1 text-xs overflow-y-auto max-h-[calc(100vh-240px)]">
-          <button type="button" onclick="mudarAba('dashboard', this)" class="w-full text-left px-3 py-2 rounded-lg bg-blue-600 text-white font-semibold flex items-center space-x-2 transition">
-            <span>📊</span><span>1. Dashboard Geral</span>
-          </button>
-          <button type="button" onclick="mudarAba('entradas', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
-            <span>📥</span><span>2. Módulo de Entradas & OCR</span>
-          </button>
-          <button type="button" onclick="mudarAba('lancamentos', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
-            <span>💰</span><span>3. Lançamentos Contábeis</span>
-          </button>
-          <button type="button" onclick="mudarAba('conciliacao', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
-            <span>🔄</span><span>4. Conciliação Bancária IA</span>
-          </button>
-          <button type="button" onclick="mudarAba('relatorios', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
-            <span>📑</span><span>5. Relatórios Oficiais IA</span>
-          </button>
-          <button type="button" onclick="mudarAba('auditoria', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
-            <span>🤖</span><span>6. Auditoria & Chat IA</span>
-          </button>
-          <button type="button" onclick="mudarAba('calendario', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
-            <span>📅</span><span>7. Calendário Fiscal</span>
-          </button>
-          <button type="button" onclick="mudarAba('clientes', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
-            <span>🏢</span><span>8. Gestão de Clientes</span>
-          </button>
-          <button type="button" onclick="mudarAba('configuracoes', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
-            <span>⚙️</span><span>9. Configurações & API</span>
-          </button>
-        </nav>
-      </div>
-
-      <div class="p-3 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center">
-        <div>
-          <p id="txt-escritorio-ativo" class="text-xs font-semibold text-white truncate max-w-[140px]">Contabilidade Silva</p>
-          <span class="text-[10px] text-emerald-400">● Supabase & Gemini Ativos</span>
-        </div>
-        <button type="button" onclick="fazerLogout()" class="text-xs text-red-400 hover:underline">Sair</button>
-      </div>
-    </aside>
-
-    <!-- Conteúdo Principal -->
-    <main class="flex-1 flex flex-col overflow-hidden bg-slate-900">
-      <header class="h-16 border-b border-slate-800 flex items-center justify-between px-6 bg-slate-950/40">
-        <h2 id="titulo-pagina" class="font-bold text-white text-base">1. Dashboard Geral</h2>
-        <div class="flex items-center space-x-3">
-          <div class="text-right">
-            <p class="text-xs font-medium text-white">Contador Responsável</p>
-            <p class="text-[10px] text-slate-400">CRC/RS - Contábil</p>
-          </div>
-          <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-xs">KG</div>
-        </div>
-      </header>
-
-      <div id="conteudo-dinamico" class="flex-1 overflow-y-auto p-6 space-y-6">
-        <!-- Renderizado dinamicamente -->
-      </div>
-    </main>
-  </div>
-</div>
-
-<input type="file" id="input-arquivo-oculto" class="hidden" onchange="lidarComUploadReal(this)" />
-
-<script>
-  const SUPABASE_URL = 'https://dvqogjwklssxbmzdrcst.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cW9nandrbHNzeGJtemRyY3N0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwNjY5NzAsImV4cCI6MjEwOTY0Mjk3MH0.OijYK5A012OkicFjvisZ7ad12n647oW_C2Fx2Uiyl1U';
-  
-  let supabaseClient = null;
-  try {
-    if (window.supabase) {
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    }
-  } catch (e) {
-    console.error("Erro ao inicializar Supabase:", e);
-  }
-
-  // COLE A SUA CHAVE REAL EXATA ENTRE AS ASPAS ABAIXO:
-  let GEMINI_API_KEY = "AQ.Ab8RN6KRkM0W2jnf9g47VmSyQrfQRRyS_csZUUoc54Z4vRNRLg"; 
-
-  let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67)";
-  let listaClientesSupabase = [];
-window.chamarGeminiAPI = async function(promptCompleto) {
-    if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("SUA_CHAVE")) {
-        alert("Por favor, configure a chave da API do Gemini.");
-        return "Erro: Chave de API não configurada.";
-    }
-
-    // Endpoint oficial v1beta utilizando a chave AQ.
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: promptCompleto }]
-                }]
-            })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            console.error("Detalhes do Erro da API Gemini:", data);
-            return `Erro da API (${response.status}): ${data.error?.message || 'Falha na autenticação'}`;
+            document.getElementById('modulo-' + idModulo).classList.remove('hidden');
+            const botaoAtivo = document.getElementById('btn-' + idModulo);
+            botaoAtivo.classList.remove('text-slate-300', 'hover:bg-slate-800', 'hover:text-white');
+            botaoAtivo.classList.add('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-600/30');
+            document.getElementById('titulo-pagina').innerText = botaoAtivo.innerText.trim();
         }
 
-        return data.candidates[0].content.parts[0].text;
-    } catch (err) {
-        console.error("Erro na requisição:", err);
-        return "Erro ao conectar com o serviço do Gemini.";
-    }
-};
- 
+        async function chamarGeminiAPI(promptCompleto) {
+            const apiKeyAtual = document.getElementById('api-key-input')?.value || GEMINI_API_KEY;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(apiKeyAtual)}`;
 
-      const dados = await resposta.json();
-      if (dados.candidates && dados.candidates[0]?.content?.parts?.[0]?.text) {
-        return dados.candidates[0].content.parts[0].text;
-      } else if (dados.error) {
-        console.error("Erro no Gemini:", dados.error.message);
-        return `Erro da API: ${dados.error.message}`;
-      } else {
-        return "Erro: A API não retornou conteúdo válido.";
-      }
-    } catch (erro) {
-      console.error("Falha na chamada ao Gemini:", erro);
-      return "Erro de conexão com a API do Gemini.";
-    }
-  };
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: promptCompleto }] }]
+                    })
+                });
 
-  window.entrarNoSistema = function() {
-    const email = document.getElementById('login-email').value;
-    const senha = document.getElementById('login-senha').value;
-    const escritorio = document.getElementById('login-escritorio').value;
+                const data = await response.json();
 
-    if (!email || !senha) {
-      alert('Por favor, preencha o e-mail e a senha.');
-      return;
-    }
+                if (!response.ok) {
+                    console.error("Erro da API:", data);
+                    return `Erro da API (${response.status}): ${data.error?.message || 'Falha de autorização'}`;
+                }
 
-    document.getElementById('txt-escritorio-ativo').innerText = escritorio.split(' ')[0];
-    document.getElementById('tela-login').style.display = 'none';
-  };
+                if (data.candidates && data.candidates[0].content) {
+                    return data.candidates[0].content.parts[0].text;
+                } else {
+                    return "A IA não retornou uma resposta válida.";
+                }
+            } catch (err) {
+                console.error("Erro de conexão:", err);
+                return "Erro de conexão com o servidor do Gemini.";
+            }
+        }
 
-  window.fazerLogout = function() {
-    document.getElementById('tela-login').style.display = 'flex';
-  };
+        async function enviarMensagem() {
+            const inputField = document.getElementById('user-input');
+            const chatContainer = document.getElementById('chat-container');
+            const texto = inputField.value.trim();
 
-  window.abrirModalCliente = function() {
-    document.getElementById('modal-novo-cliente').classList.remove('hidden');
-  };
+            if (!texto) return;
 
-  window.fecharModalCliente = function() {
-    document.getElementById('modal-novo-cliente').classList.add('hidden');
-  };
+            chatContainer.innerHTML += `
+                <div class="bg-indigo-950/50 border border-indigo-800/50 p-3.5 rounded-2xl max-w-[85%] self-end text-xs space-y-1">
+                    <span class="font-bold text-indigo-300 block">Você:</span>
+                    <p class="text-slate-200">${escapeHtml(texto)}</p>
+                </div>
+            `;
+            
+            inputField.value = "";
+            chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  window.salvarNovoCliente = function() {
-    const nome = document.getElementById('form-nome').value;
-    if(!nome) {
-      alert('Insira o nome da empresa.');
-      return;
-    }
-    alert(`Cliente "${nome}" cadastrado com sucesso!`);
-    fecharModalCliente();
-  };
+            const loadingId = 'loading-' + Date.now();
+            chatContainer.innerHTML += `
+                <div id="${loadingId}" class="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl max-w-[85%] self-start text-xs text-slate-400 italic">
+                    Gemini 1.5 Flash está a processar a auditoria...
+                </div>
+            `;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
 
-  window.acederWorkspaceCliente = function(nomeCliente) {
-    clienteAtual = nomeCliente;
-    document.getElementById('seletor-cliente-topo').value = nomeCliente;
-    window.mudarAba('dashboard', document.querySelector('#menu-modulos button'));
-  };
+            const promptContexto = `Você é um contabilista sénior especialista em auditoria, balancetes e fiscalidade no Brasil. Responda com rigor profissional à questão: ${texto}`;
+            const respostaIA = await chamarGeminiAPI(promptContexto);
 
-  window.mudarClienteManual = function(valor) {
-    clienteAtual = valor;
-    window.mudarAba('dashboard', document.querySelector('#menu-modulos button'));
-  };
+            document.getElementById(loadingId).remove();
+            chatContainer.innerHTML += `
+                <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl max-w-[85%] self-start text-xs space-y-1">
+                    <span class="font-bold text-emerald-400 block"><i class="fa-solid fa-robot mr-1"></i> Gemini 1.5 Flash:</span>
+                    <p class="text-slate-200">${escapeHtml(respostaIA)}</p>
+                </div>
+            `;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
 
-  window.salvarConfiguracoes = function() {
-    const novaChave = document.getElementById('input-gemini-key').value.trim();
-    if (novaChave) {
-      GEMINI_API_KEY = novaChave;
-      alert('Chave atualizada com sucesso no código em execução!');
-    } else {
-      alert('Por favor, insira uma chave válida.');
-    }
-  };
-
-  window.lidarComUploadReal = async function(input) {
-    if (input.files && input.files[0]) {
-      const nomeFicheiro = input.files[0].name;
-      const statusEl = document.getElementById('status-upload');
-      const nomeEl = document.getElementById('nome-arquivo-carregado');
-      
-      if (statusEl && nomeEl) {
-        nomeEl.innerText = `Processando "${nomeFicheiro}" via Gemini OCR...`;
-        statusEl.classList.remove('hidden');
-      }
-
-      const promptOCR = `Analise o documento contábil "${nomeFicheiro}" para a empresa ${clienteAtual}. Faça um resumo contábil de 1 frase.`;
-      const resultadoIA = await window.chamarGeminiAPI(promptOCR);
-
-      if (statusEl && nomeEl) {
-        nomeEl.innerText = resultadoIA ? `IA: ${resultadoIA}` : `Ficheiro "${nomeFicheiro}" carregado com sucesso.`;
-      }
-    }
-  };
-
-  window.gerarLancamentosComIA = async function() {
-    const caixaEl = document.getElementById('caixa-lancamentos-ia');
-    if (!caixaEl) return;
-    
-    caixaEl.innerHTML = "<em>Gerando lançamentos com Gemini...</em>";
-    const prompt = `Gere 1 lançamento contábil em partida dobrada (Débito e Crédito) para ${clienteAtual}.`;
-    
-    const resposta = await window.chamarGeminiAPI(prompt);
-    caixaEl.innerHTML = resposta ? resposta.replace(/\n/g, '<br>') : "D - Banco: R$ 4.500,00<br>C - Receita: R$ 4.500,00";
-  };
-
-  window.executarConciliacaoIA = async function() {
-    const statusEl = document.getElementById('status-conciliacao-ia');
-    if (!statusEl) return;
-
-    statusEl.innerHTML = "<span>Consultando Gemini...</span>";
-    const prompt = `Faça uma verificação de conciliação para ${clienteAtual}. Diga se está correto em 1 frase.`;
-    
-    const resposta = await window.chamarGeminiAPI(prompt);
-    statusEl.innerHTML = resposta ? `<span>Extrato vs Livro Caixa</span><span class='text-emerald-400 font-semibold'>✔ ${resposta}</span>` : `<span>Extrato vs Livro Caixa</span><span class='text-emerald-400 font-semibold'>✔ Conciliado</span>`;
-  };
-
-  window.perguntarParaGemini = async function() {
-    const input = document.getElementById('input-pergunta-ia');
-    const historico = document.getElementById('chat-historico');
-    const pergunta = input.value.trim();
-    
-    if (!pergunta) return;
-
-    historico.innerHTML += `<p class="text-right text-white"><strong class="text-emerald-400">Você:</strong> ${pergunta}</p>`;
-    input.value = '';
-    historico.scrollTop = historico.scrollHeight;
-
-    const idCarregando = "loading-" + Date.now();
-    historico.innerHTML += `<p id="${idCarregando}"><strong class="text-blue-400">🤖 Gemini:</strong> Pensando...</p>`;
-    historico.scrollTop = historico.scrollHeight;
-
-    const promptContexto = `Aja como auditor contábil. Responda sobre ${clienteAtual}: ${pergunta}`;
-    const respostaIA = await window.chamarGeminiAPI(promptContexto);
-    
-    const elCarregando = document.getElementById(idCarregando);
-    if (elCarregando) elCarregando.remove();
-
-    if (respostaIA) {
-      historico.innerHTML += `<p><strong class="text-blue-400">🤖 Gemini 1.5 Flash:</strong> ${respostaIA.replace(/\n/g, '<br>')}</p>`;
-    } else {
-      historico.innerHTML += `<p class="text-red-400"><strong>Erro:</strong> Não foi possível obter resposta da IA.</p>`;
-    }
-
-    historico.scrollTop = historico.scrollHeight;
-  };
-
-  const telas = {
-    dashboard: () => `
-      <div class="flex-1 p-6 overflow-y-auto space-y-6">
-        <div class="p-3 bg-blue-950/40 border border-blue-800/50 rounded-xl text-xs text-blue-300 flex items-center space-x-2">
-          <span>📁</span> <span><strong>Workspace Ativo:</strong> Exibindo dados de <strong>${clienteAtual}</strong></span>
-        </div>
-        <div onclick="document.getElementById('input-arquivo-oculto').click();" class="p-6 border-2 border-dashed border-slate-700 rounded-xl text-center space-y-2 bg-slate-800/50 cursor-pointer hover:border-blue-500 transition">
-          <p class="text-2xl">📤</p>
-          <p class="text-sm font-medium text-slate-200">Upload de Documento (PDF, XML, OFX, XLSX)</p>
-          <p class="text-xs text-slate-400">Clique para selecionar arquivos do computador</p>
-        </div>
-        <div id="status-upload" class="hidden p-4 bg-emerald-950/40 border border-emerald-700/50 rounded-xl text-xs text-emerald-300">
-          <span>✅</span> <span id="nome-arquivo-carregado">Arquivo processado com sucesso!</span>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-4 bg-slate-800 rounded-xl border border-slate-700">
-            <p class="text-xs text-slate-400">Faturamento Bruto</p>
-            <p class="text-2xl font-bold text-white mt-1">${clienteAtual.includes('Tech') ? 'R$ 148.500,00' : 'R$ 92.400,00'}</p>
-          </div>
-          <div class="p-4 bg-slate-800 rounded-xl border border-slate-700">
-            <p class="text-xs text-slate-400">Impostos Calculados</p>
-            <p class="text-2xl font-bold text-white mt-1">${clienteAtual.includes('Tech') ? 'R$ 12.380,45' : 'R$ 5.544,00'}</p>
-          </div>
-        </div>
-      </div>
-    `,
-    entradas: () => `
-      <div class="space-y-4">
-        <div class="flex justify-between items-center">
-          <h3 class="font-bold text-white text-lg">Módulo de Entradas & OCR</h3>
-          <button type="button" onclick="document.getElementById('input-arquivo-oculto').click();" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">📥 Enviar Nota Fiscal</button>
-        </div>
-        <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-sm">
-          <table class="w-full text-left">
-            <thead class="text-xs text-slate-400 border-b border-slate-700">
-              <tr><th class="pb-2">Documento</th><th class="pb-2">Emissor</th><th class="pb-2">Valor</th><th class="pb-2">Status IA</th></tr>
-            </thead>
-            <tbody class="divide-y divide-slate-700/50 text-xs">
-              <tr><td class="py-3">NF-e 1042</td><td>${clienteAtual.split(' ')[0]}</td><td>R$ 4.500,00</td><td><span class="text-green-400">Processado Gemini OCR</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    `,
-    lancamentos: () => `
-      <div class="space-y-4">
-        <div class="flex justify-between items-center">
-          <h3 class="font-bold text-white text-lg">Lançamentos Contábeis</h3>
-          <button type="button" onclick="gerarLancamentosComIA()" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">✨ Partidas Dobradas com Gemini</button>
-        </div>
-        <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-3">
-          <div id="caixa-lancamentos-ia" class="bg-slate-900 p-3 rounded-lg border border-slate-700 font-mono text-slate-200">
-            D - Banco Conta Movimento: R$ 4.500,00<br>
-            C - Receita de Serviços: R$ 4.500,00
-          </div>
-        </div>
-      </div>
-    `,
-    conciliacao: () => `
-      <div class="space-y-4">
-        <div class="flex justify-between items-center">
-          <h3 class="font-bold text-white text-lg">Conciliação Bancária IA</h3>
-          <button type="button" onclick="executarConciliacaoIA()" class="px-3 py-2 bg-emerald-600 text-white rounded-lg text-xs font-medium">🔄 Auditar com Gemini</button>
-        </div>
-        <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-3">
-          <div id="status-conciliacao-ia" class="flex justify-between items-center bg-slate-900 p-3 rounded-lg border border-slate-700">
-            <span>Extrato Bancário vs. Livro Caixa</span>
-            <span class="text-emerald-400 font-semibold">✔ Conciliado</span>
-          </div>
-        </div>
-      </div>
-    `,
-    relatorios: () => `
-      <div class="space-y-4">
-        <h3 class="font-bold text-white text-lg">Relatórios Oficiais IA</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 space-y-2">
-            <p class="font-bold text-white">DRE Gerencial</p>
-            <button type="button" onclick="alert('Gerando PDF DRE...')" class="px-3 py-1.5 bg-blue-600 text-white rounded text-xs">📄 Baixar DRE (.PDF)</button>
-          </div>
-          <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 space-y-2">
-            <p class="font-bold text-white">Balanço Patrimonial</p>
-            <button type="button" onclick="alert('Gerando Balanço...')" class="px-3 py-1.5 bg-blue-600 text-white rounded text-xs">📊 Baixar Balanço (.PDF)</button>
-          </div>
-        </div>
-      </div>
-    `,
-    auditoria: () => `
-      <div class="space-y-4">
-        <h3 class="font-bold text-white text-lg">Auditoria & Chat com Google Gemini 1.5 Flash</h3>
-        <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 space-y-3">
-          <div id="chat-historico" class="bg-slate-900 p-3 rounded-lg border border-slate-700 text-xs text-slate-300 space-y-2 max-h-48 overflow-y-auto">
-            <p><strong class="text-blue-400">🤖 Assistente ContábIA:</strong> Olá! Como posso ajudar na fiscalidade hoje?</p>
-          </div>
-          <div class="flex space-x-2">
-            <input type="text" id="input-pergunta-ia" placeholder="Digite sua pergunta..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none">
-            <button type="button" onclick="perguntarParaGemini()" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">Perguntar à IA</button>
-          </div>
-        </div>
-      </div>
-    `,
-    calendario: () => `
-      <div class="space-y-4">
-        <h3 class="font-bold text-white text-lg">Calendário Fiscal</h3>
-        <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-2">
-          <div class="flex justify-between items-center p-2 bg-slate-900 rounded border border-slate-700">
-            <span>DAS - Simples Nacional</span>
-            <span class="text-red-400 font-semibold">Vence em 20/10/2026</span>
-          </div>
-        </div>
-      </div>
-    `,
-    clientes: () => `
-      <div class="space-y-4">
-        <div class="flex justify-between items-center">
-          <h3 class="font-bold text-white text-lg">Gestão de Clientes</h3>
-          <button type="button" onclick="abrirModalCliente()" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">➕ Novo Cliente</button>
-        </div>
-        <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-3">
-          <div class="flex justify-between items-center p-2 rounded-lg bg-slate-700/40">
-            <span>Tech Solutions LTDA</span>
-            <button type="button" onclick="acederWorkspaceCliente('Tech Solutions LTDA (CNPJ 12.345.67)')" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg font-semibold">📂 Aceder Workspace</button>
-          </div>
-        </div>
-      </div>
-    `,
-    configuracoes: () => `
-      <div class="space-y-4">
-        <h3 class="font-bold text-white text-lg">Configurações & API</h3>
-        <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-3">
-          <div>
-            <label class="text-slate-400 block mb-1">Chave API Google Gemini 1.5 Flash</label>
-            <input type="password" id="input-gemini-key" value="${GEMINI_API_KEY}" placeholder="Cole sua chave aqui..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white">
-          </div>
-          <button type="button" onclick="salvarConfiguracoes()" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium">Salvar Configurações</button>
-        </div>
-      </div>
-    `
-  };
-
-  window.mudarAba = function(nomeAba, elemento) {
-    const conteudoFn = telas[nomeAba] || (() => `<div class="p-4 bg-slate-800 rounded-xl border border-slate-700">Módulo em execução para <strong>${clienteAtual}</strong></div>`);
-    document.getElementById('conteudo-dinamico').innerHTML = conteudoFn();
-    
-    if (nomeAba === 'configuracoes') {
-      const inputKey = document.getElementById('input-gemini-key');
-      if (inputKey) inputKey.value = GEMINI_API_KEY;
-    }
-    
-    const titulosMap = {
-      dashboard: '1. Dashboard Geral',
-      entradas: '2. Módulo de Entradas & OCR',
-      lancamentos: '3. Lançamentos Contábeis',
-      conciliacao: '4. Conciliação Bancária IA',
-      relatorios: '5. Relatórios Oficiais IA',
-      auditoria: '6. Auditoria & Chat IA',
-      calendario: '7. Calendário Fiscal',
-      clientes: '8. Gestão de Clientes',
-      configuracoes: '9. Configurações & API'
-    };
-    document.getElementById('titulo-pagina').innerText = titulosMap[nomeAba] || 'ContábIA SaaS';
-
-    document.querySelectorAll('#menu-modulos button').forEach(btn => {
-      btn.classList.remove('bg-blue-600', 'text-white', 'font-semibold');
-      btn.classList.add('text-slate-400', 'hover:bg-slate-900', 'hover:text-white');
-    });
-    if(elemento) {
-      elemento.classList.remove('text-slate-400', 'hover:bg-slate-900', 'hover:text-white');
-      elemento.classList.add('bg-blue-600', 'text-white', 'font-semibold');
-    }
-  };
-
-  window.mudarAba('dashboard', document.querySelector('#menu-modulos button'));
-</script>
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+    </script>
 </body>
 </html>
