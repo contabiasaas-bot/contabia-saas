@@ -42,7 +42,7 @@
           <input type="password" id="login-senha" placeholder="••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-600">
         </div>
 
-        <button onclick="entrarNoSistema()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-blue-600/30">
+        <button type="button" onclick="entrarNoSistema()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-colors shadow-lg shadow-blue-600/30">
           Entrar no Sistema (Área Segura)
         </button>
 
@@ -58,7 +58,7 @@
     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-lg space-y-4 shadow-2xl">
       <div class="flex justify-between items-center border-b border-slate-800 pb-3">
         <h3 class="font-bold text-white text-base">Cadastrar Novo Cliente Manualmente</h3>
-        <button onclick="fecharModalCliente()" class="text-slate-400 hover:text-white text-sm">✕</button>
+        <button type="button" onclick="fecharModalCliente()" class="text-slate-400 hover:text-white text-sm">✕</button>
       </div>
       <div class="space-y-3 text-xs">
         <div>
@@ -80,8 +80,8 @@
         </div>
       </div>
       <div class="flex justify-end space-x-2 pt-2">
-        <button onclick="fecharModalCliente()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium">Cancelar</button>
-        <button onclick="salvarNovoCliente()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-medium">Salvar Cliente</button>
+        <button type="button" onclick="fecharModalCliente()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium">Cancelar</button>
+        <button type="button" onclick="salvarNovoCliente()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-medium">Salvar Cliente</button>
       </div>
     </div>
   </div>
@@ -108,31 +108,31 @@
         </div>
 
         <nav id="menu-modulos" class="p-2 space-y-1 text-xs overflow-y-auto max-h-[calc(100vh-240px)]">
-          <button onclick="mudarAba('dashboard', this)" class="w-full text-left px-3 py-2 rounded-lg bg-blue-600 text-white font-semibold flex items-center space-x-2 transition">
+          <button type="button" onclick="mudarAba('dashboard', this)" class="w-full text-left px-3 py-2 rounded-lg bg-blue-600 text-white font-semibold flex items-center space-x-2 transition">
             <span>📊</span><span>1. Dashboard Geral</span>
           </button>
-          <button onclick="mudarAba('entradas', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
+          <button type="button" onclick="mudarAba('entradas', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
             <span>📥</span><span>2. Módulo de Entradas & OCR</span>
           </button>
-          <button onclick="mudarAba('lancamentos', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
+          <button type="button" onclick="mudarAba('lancamentos', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
             <span>💰</span><span>3. Lançamentos Contábeis</span>
           </button>
-          <button onclick="mudarAba('conciliacao', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
+          <button type="button" onclick="mudarAba('conciliacao', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
             <span>🔄</span><span>4. Conciliação Bancária IA</span>
           </button>
-          <button onclick="mudarAba('relatorios', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
+          <button type="button" onclick="mudarAba('relatorios', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
             <span>📑</span><span>5. Relatórios Oficiais IA</span>
           </button>
-          <button onclick="mudarAba('auditoria', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
+          <button type="button" onclick="mudarAba('auditoria', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
             <span>🤖</span><span>6. Auditoria & Chat IA</span>
           </button>
-          <button onclick="mudarAba('calendario', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
+          <button type="button" onclick="mudarAba('calendario', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
             <span>📅</span><span>7. Calendário Fiscal</span>
           </button>
-          <button onclick="mudarAba('clientes', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
+          <button type="button" onclick="mudarAba('clientes', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
             <span>🏢</span><span>8. Gestão de Clientes</span>
           </button>
-          <button onclick="mudarAba('configuracoes', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
+          <button type="button" onclick="mudarAba('configuracoes', this)" class="w-full text-left px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900 hover:text-white flex items-center space-x-2 transition">
             <span>⚙️</span><span>9. Configurações & API</span>
           </button>
         </nav>
@@ -143,7 +143,7 @@
           <p id="txt-escritorio-ativo" class="text-xs font-semibold text-white truncate max-w-[140px]">Contabilidade Silva</p>
           <span class="text-[10px] text-emerald-400">● Supabase & Gemini Ativos</span>
         </div>
-        <button onclick="fazerLogout()" class="text-xs text-red-400 hover:underline">Sair</button>
+        <button type="button" onclick="fazerLogout()" class="text-xs text-red-400 hover:underline">Sair</button>
       </div>
     </aside>
 
@@ -174,17 +174,21 @@
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR2cW9nandrbHNzeGJtemRyY3N0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwNjY5NzAsImV4cCI6MjEwOTY0Mjk3MH0.OijYK5A012OkicFjvisZ7ad12n647oW_C2Fx2Uiyl1U';
   
   let supabaseClient = null;
-  if (window.supabase) {
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  try {
+    if (window.supabase) {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+  } catch (e) {
+    console.error("Erro ao inicializar Supabase:", e);
   }
 
-  // Cole a sua chave completa gerada no Google AI Studio (que termina em NRLg) entre as aspas abaixo:
+  // Chave API do Google Gemini (substitua aqui caso necessário)
   let GEMINI_API_KEY = "SUA_CHAVE_COMPLETA_AQUI"; 
 
   let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67)";
   let listaClientesSupabase = [];
 
-  async function chamarGeminiAPI(promptCompleto) {
+  window.chamarGeminiAPI = async function(promptCompleto) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
     
     try {
@@ -209,20 +213,134 @@
       console.error("Falha na chamada ao Gemini:", erro);
       return null;
     }
-  }
+  };
 
-  async function carregarDadosSupabase() {
-    if (!supabaseClient) return;
-    try {
-      const { data, error } = await supabaseClient.from('clientes_tenant').select('*');
-      if (!error && data && data.length > 0) {
-        listaClientesSupabase = data;
-      }
-    } catch (err) {
-      console.error('Erro Supabase:', err);
+  window.entrarNoSistema = function() {
+    const email = document.getElementById('login-email').value;
+    const senha = document.getElementById('login-senha').value;
+    const escritorio = document.getElementById('login-escritorio').value;
+
+    if (!email || !senha) {
+      alert('Por favor, preencha o e-mail e a senha.');
+      return;
     }
-  }
-  carregarDadosSupabase();
+
+    document.getElementById('txt-escritorio-ativo').innerText = escritorio.split(' ')[0];
+    document.getElementById('tela-login').style.display = 'none';
+  };
+
+  window.fazerLogout = function() {
+    document.getElementById('tela-login').style.display = 'flex';
+  };
+
+  window.abrirModalCliente = function() {
+    document.getElementById('modal-novo-cliente').classList.remove('hidden');
+  };
+
+  window.fecharModalCliente = function() {
+    document.getElementById('modal-novo-cliente').classList.add('hidden');
+  };
+
+  window.salvarNovoCliente = function() {
+    const nome = document.getElementById('form-nome').value;
+    if(!nome) {
+      alert('Insira o nome da empresa.');
+      return;
+    }
+    alert(`Cliente "${nome}" cadastrado com sucesso!`);
+    fecharModalCliente();
+  };
+
+  window.acederWorkspaceCliente = function(nomeCliente) {
+    clienteAtual = nomeCliente;
+    document.getElementById('seletor-cliente-topo').value = nomeCliente;
+    window.mudarAba('dashboard', document.querySelector('#menu-modulos button'));
+  };
+
+  window.mudarClienteManual = function(valor) {
+    clienteAtual = valor;
+    window.mudarAba('dashboard', document.querySelector('#menu-modulos button'));
+  };
+
+  window.salvarConfiguracoes = function() {
+    const novaChave = document.getElementById('input-gemini-key').value;
+    if (novaChave) {
+      GEMINI_API_KEY = novaChave;
+      alert('Chave atualizada com sucesso!');
+    }
+  };
+
+  window.lidarComUploadReal = async function(input) {
+    if (input.files && input.files[0]) {
+      const nomeFicheiro = input.files[0].name;
+      const statusEl = document.getElementById('status-upload');
+      const nomeEl = document.getElementById('nome-arquivo-carregado');
+      
+      if (statusEl && nomeEl) {
+        nomeEl.innerText = `Processando "${nomeFicheiro}" via Gemini OCR...`;
+        statusEl.classList.remove('hidden');
+      }
+
+      const promptOCR = `Analise o documento contábil "${nomeFicheiro}" para a empresa ${clienteAtual}. Faça um resumo contábil de 1 frase.`;
+      const resultadoIA = await window.chamarGeminiAPI(promptOCR);
+
+      if (statusEl && nomeEl) {
+        nomeEl.innerText = resultadoIA ? `IA: ${resultadoIA}` : `Ficheiro "${nomeFicheiro}" carregado com sucesso.`;
+      }
+    }
+  };
+
+  window.gerarLancamentosComIA = async function() {
+    const caixaEl = document.getElementById('caixa-lancamentos-ia');
+    if (!caixaEl) return;
+    
+    caixaEl.innerHTML = "<em>Gerando lançamentos com Gemini...</em>";
+    const prompt = `Gere 1 lançamento contábil em partida dobrada (Débito e Crédito) para ${clienteAtual}.`;
+    
+    const resposta = await window.chamarGeminiAPI(prompt);
+    caixaEl.innerHTML = resposta ? resposta.replace(/\n/g, '<br>') : "D - Banco: R$ 4.500,00<br>C - Receita: R$ 4.500,00";
+  };
+
+  window.executarConciliacaoIA = async function() {
+    const statusEl = document.getElementById('status-conciliacao-ia');
+    if (!statusEl) return;
+
+    statusEl.innerHTML = "<span>Consultando Gemini...</span>";
+    const prompt = `Faça uma verificação de conciliação para ${clienteAtual}. Diga se está correto em 1 frase.`;
+    
+    const resposta = await window.chamarGeminiAPI(prompt);
+    statusEl.innerHTML = resposta ? `<span>Extrato vs Livro Caixa</span><span class='text-emerald-400 font-semibold'>✔ ${resposta}</span>` : `<span>Extrato vs Livro Caixa</span><span class='text-emerald-400 font-semibold'>✔ Conciliado</span>`;
+  };
+
+  window.perguntarParaGemini = async function() {
+    const input = document.getElementById('input-pergunta-ia');
+    const historico = document.getElementById('chat-historico');
+    const pergunta = input.value.trim();
+    
+    if (!pergunta) return;
+
+    historico.innerHTML += `<p class="text-right text-white"><strong class="text-emerald-400">Você:</strong> ${pergunta}</p>`;
+    input.value = '';
+    historico.scrollTop = historico.scrollHeight;
+
+    const idCarregando = "loading-" + Date.now();
+    historico.innerHTML += `<p id="${idCarregando}"><strong class="text-blue-400">🤖 Gemini:</strong> Pensando...</p>`;
+    historico.scrollTop = historico.scrollHeight;
+
+    const promptContexto = `Aja como auditor contábil. Responda sobre ${clienteAtual}: ${pergunta}`;
+    const respostaIA = await window.chamarGeminiAPI(promptContexto);
+    
+    const elCarregando = document.getElementById(idCarregando);
+    if (elCarregando) elCarregando.remove();
+
+    if (respostaIA) {
+      historico.innerHTML += `<p><strong class="text-blue-400">🤖 Gemini 1.5 Flash:</strong> ${respostaIA.replace(/\n/g, '<br>')}</p>`;
+    } else {
+      historico.innerHTML += `<p class="text-red-400"><strong>Erro:</strong> Não foi possível obter resposta. Verifique sua chave API.</p>`;
+    }
+
+    historico.scrollTop = historico.scrollHeight;
+  };
 
   const telas = {
     dashboard: () => `
@@ -254,7 +372,7 @@
       <div class="space-y-4">
         <div class="flex justify-between items-center">
           <h3 class="font-bold text-white text-lg">Módulo de Entradas & OCR</h3>
-          <button onclick="document.getElementById('input-arquivo-oculto').click();" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">📥 Enviar Nota Fiscal</button>
+          <button type="button" onclick="document.getElementById('input-arquivo-oculto').click();" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">📥 Enviar Nota Fiscal</button>
         </div>
         <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-sm">
           <table class="w-full text-left">
@@ -272,7 +390,7 @@
       <div class="space-y-4">
         <div class="flex justify-between items-center">
           <h3 class="font-bold text-white text-lg">Lançamentos Contábeis</h3>
-          <button onclick="gerarLancamentosComIA()" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">✨ Partidas Dobradas com Gemini</button>
+          <button type="button" onclick="gerarLancamentosComIA()" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">✨ Partidas Dobradas com Gemini</button>
         </div>
         <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-3">
           <div id="caixa-lancamentos-ia" class="bg-slate-900 p-3 rounded-lg border border-slate-700 font-mono text-slate-200">
@@ -286,7 +404,7 @@
       <div class="space-y-4">
         <div class="flex justify-between items-center">
           <h3 class="font-bold text-white text-lg">Conciliação Bancária IA</h3>
-          <button onclick="executarConciliacaoIA()" class="px-3 py-2 bg-emerald-600 text-white rounded-lg text-xs font-medium">🔄 Auditar com Gemini</button>
+          <button type="button" onclick="executarConciliacaoIA()" class="px-3 py-2 bg-emerald-600 text-white rounded-lg text-xs font-medium">🔄 Auditar com Gemini</button>
         </div>
         <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-3">
           <div id="status-conciliacao-ia" class="flex justify-between items-center bg-slate-900 p-3 rounded-lg border border-slate-700">
@@ -302,11 +420,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 space-y-2">
             <p class="font-bold text-white">DRE Gerencial</p>
-            <button onclick="alert('Gerando PDF DRE...')" class="px-3 py-1.5 bg-blue-600 text-white rounded text-xs">📄 Baixar DRE (.PDF)</button>
+            <button type="button" onclick="alert('Gerando PDF DRE...')" class="px-3 py-1.5 bg-blue-600 text-white rounded text-xs">📄 Baixar DRE (.PDF)</button>
           </div>
           <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 space-y-2">
             <p class="font-bold text-white">Balanço Patrimonial</p>
-            <button onclick="alert('Gerando Balanço...')" class="px-3 py-1.5 bg-blue-600 text-white rounded text-xs">📊 Baixar Balanço (.PDF)</button>
+            <button type="button" onclick="alert('Gerando Balanço...')" class="px-3 py-1.5 bg-blue-600 text-white rounded text-xs">📊 Baixar Balanço (.PDF)</button>
           </div>
         </div>
       </div>
@@ -320,7 +438,7 @@
           </div>
           <div class="flex space-x-2">
             <input type="text" id="input-pergunta-ia" placeholder="Digite sua pergunta..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none">
-            <button onclick="perguntarParaGemini()" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">Perguntar à IA</button>
+            <button type="button" onclick="perguntarParaGemini()" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">Perguntar à IA</button>
           </div>
         </div>
       </div>
@@ -340,12 +458,12 @@
       <div class="space-y-4">
         <div class="flex justify-between items-center">
           <h3 class="font-bold text-white text-lg">Gestão de Clientes</h3>
-          <button onclick="abrirModalCliente()" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">➕ Novo Cliente</button>
+          <button type="button" onclick="abrirModalCliente()" class="px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium">➕ Novo Cliente</button>
         </div>
         <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-3">
           <div class="flex justify-between items-center p-2 rounded-lg bg-slate-700/40">
             <span>Tech Solutions LTDA</span>
-            <button onclick="acederWorkspaceCliente('Tech Solutions LTDA (CNPJ 12.345.67)')" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg font-semibold">📂 Aceder Workspace</button>
+            <button type="button" onclick="acederWorkspaceCliente('Tech Solutions LTDA (CNPJ 12.345.67)')" class="px-3 py-1.5 bg-blue-600 text-white rounded-lg font-semibold">📂 Aceder Workspace</button>
           </div>
         </div>
       </div>
@@ -358,128 +476,41 @@
             <label class="text-slate-400 block mb-1">Chave API Google Gemini 1.5 Flash</label>
             <input type="password" id="input-gemini-key" value="${GEMINI_API_KEY}" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white">
           </div>
-          <button onclick="salvarConfiguracoes()" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium">Salvar Configurações</button>
+          <button type="button" onclick="salvarConfiguracoes()" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium">Salvar Configurações</button>
         </div>
       </div>
     `
   };
 
-  function acederWorkspaceCliente(nomeCliente) {
-    clienteAtual = nomeCliente;
-    document.getElementById('seletor-cliente-topo').value = nomeCliente;
-    mudarAba('dashboard', document.querySelector('#menu-modulos button'));
-  }
-
-  function mudarClienteManual(valor) {
-    clienteAtual = valor;
-    mudarAba('dashboard', document.querySelector('#menu-modulos button'));
-  }
-
-  function salvarConfiguracoes() {
-    const novaChave = document.getElementById('input-gemini-key').value;
-    if (novaChave) {
-      GEMINI_API_KEY = novaChave;
-      alert('Chave atualizada com sucesso!');
-    }
-  }
-
-  async function entrarNoSistema() {
-    const email = document.getElementById('login-email').value;
-    const senha = document.getElementById('login-senha').value;
-    const escritorio = document.getElementById('login-escritorio').value;
-
-    if (!email || !senha) {
-      alert('Preencha o e-mail e a senha.');
-      return;
-    }
-
-    if (supabaseClient) {
-      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password: senha });
-      if (error) {
-        // Se a conta não existir no Supabase, libera acesso para teste com os dados informados
-        console.warn("Autenticação direta liberada para teste local.");
-      }
-    }
-
-    document.getElementById('txt-escritorio-ativo').innerText = escritorio.split(' ')[0];
-    document.getElementById('tela-login').style.display = 'none';
-  }
-
-  function fazerLogout() {
-    if (supabaseClient) supabaseClient.auth.signOut();
-    document.getElementById('tela-login').style.display = 'flex';
-  }
-
-  function abrirModalCliente() {
-    document.getElementById('modal-novo-cliente').classList.remove('hidden');
-  }
-
-  function fecharModalCliente() {
-    document.getElementById('modal-novo-cliente').classList.add('hidden');
-  }
-
-  function salvarNovoCliente() {
-    const nome = document.getElementById('form-nome').value;
-    if(!nome) return alert('Insira o nome da empresa.');
-    alert(`Cliente "${nome}" cadastrado!`); fecharModalCliente(); }  async function lidarComUploadReal(input) { if (input.files && input.files[0]) { const nomeFicheiro = input.files[0].name; const statusEl = document.getElementById('status-upload'); const nomeEl = document.getElementById('nome-arquivo-carregado');  if (statusEl && nomeEl) { nomeEl.innerText = `Processando "${nomeFicheiro}" via Gemini OCR...`;
-        statusEl.classList.remove('hidden');
-      }
-
-      const promptOCR = `Analise o documento contábil "${nomeFicheiro}" para a empresa ${clienteAtual}. Faça um resumo contábil de 1 frase.`;
-      const resultadoIA = await chamarGeminiAPI(promptOCR);
-
-      if (statusEl && nomeEl) {
-        nomeEl.innerText = resultadoIA ? `IA: ${resultadoIA}` : `Ficheiro "${nomeFicheiro}" carregado com sucesso.`;
-      }
-    }
-  }
-
-  async function gerarLancamentosComIA() {
-    const caixaEl = document.getElementById('caixa-lancamentos-ia');
-    if (!caixaEl) return;
+  window.mudarAba = function(nomeAba, elemento) {
+    const conteudoFn = telas[nomeAba] || (() => `<div class="p-4 bg-slate-800 rounded-xl border border-slate-700">Módulo em execução para <strong>${clienteAtual}</strong></div>`);
+    document.getElementById('conteudo-dinamico').innerHTML = conteudoFn();
     
-    caixaEl.innerHTML = "<em>Gerando lançamentos com Gemini...</em>";
-    const prompt = `Gere 1 lançamento contábil em partida dobrada (Débito e Crédito) para ${clienteAtual}.`;
-    
-    const resposta = await chamarGeminiAPI(prompt);
-    caixaEl.innerHTML = resposta ? resposta.replace(/\n/g, '<br>') : "D - Banco: R$ 4.500,00<br>C - Receita: R$ 4.500,00";
-  }
+    const titulosMap = {
+      dashboard: '1. Dashboard Geral',
+      entradas: '2. Módulo de Entradas & OCR',
+      lancamentos: '3. Lançamentos Contábeis',
+      conciliacao: '4. Conciliação Bancária IA',
+      relatorios: '5. Relatórios Oficiais IA',
+      auditoria: '6. Auditoria & Chat IA',
+      calendario: '7. Calendário Fiscal',
+      clientes: '8. Gestão de Clientes',
+      configuracoes: '9. Configurações & API'
+    };
+    document.getElementById('titulo-pagina').innerText = titulosMap[nomeAba] || 'ContábIA SaaS';
 
-  async function executarConciliacaoIA() {
-    const statusEl = document.getElementById('status-conciliacao-ia');
-    if (!statusEl) return;
-
-    statusEl.innerHTML = "<span>Consultando Gemini...</span>";
-    const prompt = `Faça uma verificação de conciliação para ${clienteAtual}. Diga se está correto em 1 frase.`;
-    
-    const resposta = await chamarGeminiAPI(prompt);
-    statusEl.innerHTML = resposta ? `<span>Extrato vs Livro Caixa</span><span class='text-emerald-400 font-semibold'>✔ ${resposta}</span>` : `<span>Extrato vs Livro Caixa</span><span class='text-emerald-400 font-semibold'>✔ Conciliado</span>`;
-  }
-
-  async function perguntarParaGemini() {
-    const input = document.getElementById('input-pergunta-ia');
-    const historico = document.getElementById('chat-historico');
-    const pergunta = input.value.trim();
-    
-    if (!pergunta) return;
-
-    historico.innerHTML += `<p class="text-right text-white"><strong class="text-emerald-400">Você:</strong> ${pergunta}</p>`; input.value = ''; historico.scrollTop = historico.scrollHeight;  const idCarregando = "loading-" + Date.now(); historico.innerHTML += `<p id="${idCarregando}"><strong class="text-blue-400">🤖 Gemini:</strong> Pensando...</p>`;
-    historico.scrollTop = historico.scrollHeight;
-
-    const promptContexto = `Aja como auditor contábil. Responda sobre ${clienteAtual}:${pergunta}`;
-    const respostaIA = await chamarGeminiAPI(promptContexto);
-    
-    const elCarregando = document.getElementById(idCarregando);
-    if (elCarregando) elCarregando.remove();
-
-    if (respostaIA) {
-      historico.innerHTML += `<p><strong class="text-blue-400">🤖 Gemini 1.5 Flash:</strong> ${respostaIA.replace(/\n/g, '<br>')}</p>`;
-    } else {
-      historico.innerHTML += `<p class="text-red-400"><strong>Erro:</strong> Não foi possível obter resposta. Verifique sua chave API.</p>`;
+    document.querySelectorAll('#menu-modulos button').forEach(btn => {
+      btn.classList.remove('bg-blue-600', 'text-white', 'font-semibold');
+      btn.classList.add('text-slate-400', 'hover:bg-slate-900', 'hover:text-white');
+    });
+    if(elemento) {
+      elemento.classList.remove('text-slate-400', 'hover:bg-slate-900', 'hover:text-white');
+      elemento.classList.add('bg-blue-600', 'text-white', 'font-semibold');
     }
+  };
 
-    historico.scrollTop = historico.scrollHeight;
-  }
-
-  function mudarAba(nomeAba, elemento) {
-    const conteudoFn = telas[nomeAba] || (() => `<div class="p-4 bg-slate-800 rounded
+  // Inicialização padrão
+  window.mudarAba('dashboard', document.querySelector('#menu-modulos button'));
+</script>
+</body>
+</html>
