@@ -189,7 +189,7 @@
             { doc: "NFS-e 882", emissor: "Consultoria Fiscal RS", valor: "R$ 1.200,00", status: "Captura Automática" }
         ];
 
-        // FUNÇÃO DE UPLOAD REAL (Adiciona ficheiro e atualiza tabela)
+        // UPLOAD REAL
         function dispararUpload() {
             document.getElementById('input-arquivo-oculto').click();
         }
@@ -205,56 +205,49 @@
                         status: "Processado via Gemini OCR"
                     });
                 }
-                alert(`Upload concluído! ${input.files.length} ficheiro(s) adicionado(s) à tabela de entradas.`);
+                alert(`Upload concluído com sucesso! ${input.files.length} ficheiro(s) adicionado(s) à tabela de entradas.`);
                 mudarModulo('entradas');
             }
         }
 
-        // FUNÇÃO DE DOWNLOAD REAL (Gera e baixa um ficheiro de texto oficial)
+        // DOWNLOAD REAL (Forçado por Data URI para garantir o descarregamento imediato)
         function fazerDownloadRelatorio(tipo) {
             let conteudoTexto = "";
             let nomeArquivo = "";
 
             if (tipo === 'dre') {
                 nomeArquivo = `DRE_${clienteAtual.split(' ')[0]}.txt`;
-                conteudoTexto = `========================================\n` +
-                                `DEMONSTRAÇÃO DO RESULTADO DO EXERCÍCIO (DRE)\n` +
-                                `Empresa: ${clienteAtual}\n` +
-                                `Contador: CRC/RS - Contábil KG\n` +
-                                `========================================\n\n` +
-                                `(+) Receita Operacional Bruta: R$ 145.890,00\n` +
-                                `(-) Impostos e Deduções: R$ -12.450,00\n` +
-                                `(=) Receita Operacional Líquida: R$ 133.440,00\n` +
-                                `(-) Custos dos Serviços Prestados: R$ -85.120,00\n` +
-                                `(=) Lucro Bruto: R$ 48.320,00\n` +
-                                `========================================\n` +
-                                `Emitido via ContábIA SaaS & Gemini 1.5 Flash`;
+                conteudoTexto = "DEMONSTRACAO DO RESULTADO DO EXERCICIO (DRE)\n" +
+                                "Empresa: " + clienteAtual + "\n" +
+                                "Contador: CRC/RS - Contabil KG\n\n" +
+                                "(+) Receita Operacional Bruta: R$ 145.890,00\n" +
+                                "(-) Impostos e Deducoes: R$ -12.450,00\n" +
+                                "(=) Receita Operacional Liquida: R$ 133.440,00\n" +
+                                "(-) Custos dos Servicos Prestados: R$ -85.120,00\n" +
+                                "(=) Lucro Bruto: R$ 48.320,00\n\n" +
+                                "Emitido via ContabIA SaaS & Gemini 1.5 Flash";
             } else {
                 nomeArquivo = `Balanco_Patrimonial_${clienteAtual.split(' ')[0]}.txt`;
-                conteudoTexto = `========================================\n` +
-                                `BALANÇO PATRIMONIAL OFICIAL\n` +
-                                `Empresa: ${clienteAtual}\n` +
-                                `Contador: CRC/RS - Contábil KG\n` +
-                                `========================================\n\n` +
-                                `ATIVO TOTAL: R$ 320.000,00\n` +
-                                ` - Circulante (Caixa/Bancos/Clientes): R$ 190.000,00\n` +
-                                ` - Não Circulante (Imobilizado): R$ 130.000,00\n\n` +
-                                `PASSIVO TOTAL: R$ 320.000,00\n` +
-                                ` - Passivo Circulante (Fornecedores/Impostos): R$ 85.000,00\n` +
-                                ` - Patrimônio Líquido (Capital/Lucros): R$ 235.000,00\n` +
-                                `========================================\n` +
-                                `Emitido via ContábIA SaaS & Gemini 1.5 Flash`;
+                conteudoTexto = "BALANCO PATRIMONIAL OFICIAL\n" +
+                                "Empresa: " + clienteAtual + "\n" +
+                                "Contador: CRC/RS - Contabil KG\n\n" +
+                                "ATIVO TOTAL: R$ 320.000,00\n" +
+                                " - Circulante (Caixa/Bancos/Clientes): R$ 190.000,00\n" +
+                                " - Nao Circulante (Imobilizado): R$ 130.000,00\n\n" +
+                                "PASSIVO TOTAL: R$ 320.000,00\n" +
+                                " - Passivo Circulante (Fornecedores/Impostos): R$ 85.000,00\n" +
+                                " - Patrimonio Liquido (Capital/Lucros): R$ 235.000,00\n\n" +
+                                "Emitido via ContabIA SaaS & Gemini 1.5 Flash";
             }
 
-            const blob = new Blob([conteudoTexto], { type: 'text/plain;charset=utf-8' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = nomeArquivo;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
+            // Codifica o conteúdo em URI para forçar o download em qualquer navegador sem restrições
+            const elementoLink = document.createElement('a');
+            elementoLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(conteudoTexto));
+            elementoLink.setAttribute('download', nomeArquivo);
+            elementoLink.style.display = 'none';
+            document.body.appendChild(elementoLink);
+            elementoLink.click();
+            document.body.removeChild(elementoLink);
         }
 
         const telas = {
@@ -374,8 +367,8 @@
                             <div class="flex justify-between text-indigo-400 font-bold pt-2 border-t border-slate-800"><span>(=) Lucro Líquido do Período</span> <span>48.320,00</span></div>
                         </div>
                         <div class="flex gap-3">
-                            <button onclick="fazerDownloadRelatorio('dre')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow cursor-pointer">📥 Baixar DRE (.TXT/.PDF)</button>
-                            <button onclick="fazerDownloadRelatorio('balanco')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow cursor-pointer">📊 Baixar Balanço (.TXT/.PDF)</button>
+                            <button onclick="fazerDownloadRelatorio('dre')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow cursor-pointer">📥 Baixar DRE Oficial</button>
+                            <button onclick="fazerDownloadRelatorio('balanco')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow cursor-pointer">📊 Baixar Balanço Oficial</button>
                         </div>
                     </div>
                 </div>
