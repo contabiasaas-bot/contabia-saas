@@ -176,21 +176,42 @@
     </div>
 
     <!-- Input Oculto para Upload Global -->
-    <input type="file" id="input-arquivo-oculto" class="hidden" multiple onchange="lidarComUploadReal(this)" />
+    <input type="file" id="input-arquivo-oculto" class="hidden" multiple />
 
     <!-- SCRIPT COMPLETO E FUNCIONAL -->
     <script>
         const SUPABASE_URL = 'https://dvqogjwklssxbmzdrcst.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_K9SSJVtCxneRC_WqMBLSXg_Mwq5o...';
-        const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
-
         let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67/0001-90)";
 
-        // Armazenamento dinâmico de documentos enviados via upload
         let listaDocumentosOCR = [
             { doc: "NF-e 1042", emissor: "Tech", valor: "R$ 4.500,00", status: "Processado via Gemini OCR" },
             { doc: "NFS-e 882", emissor: "Consultoria Fiscal RS", valor: "R$ 1.200,00", status: "Captura Automática" }
         ];
+
+        // Listener global robusto para o input de arquivo
+        document.addEventListener("DOMContentLoaded", () => {
+            const inputFile = document.getElementById('input-arquivo-oculto');
+            if (inputFile) {
+                inputFile.addEventListener('change', function(e) {
+                    if (this.files && this.files.length > 0) {
+                        for (let i = 0; i < this.files.length; i++) {
+                            const nomeArquivo = this.files[i].name;
+                            listaDocumentosOCR.unshift({
+                                doc: nomeArquivo,
+                                emissor: clienteAtual.split(' ')[0],
+                                valor: "R$ " + (Math.random() * 5000 + 150).toFixed(2).replace('.', ','),
+                                status: "Processado via Gemini OCR"
+                            });
+                        }
+                        alert(`Sucesso! ${this.files.length} ficheiro(s) carregado(s) e processado(s) com IA.`);
+                        
+                        // Redireciona para o Módulo de Entradas para ver o arquivo na tabela
+                        mudarModulo('entradas');
+                    }
+                });
+            }
+        });
 
         const telas = {
             dashboard: () => `
@@ -217,14 +238,10 @@
                         </div>
                     </div>
 
-                    <div onclick="document.getElementById('input-arquivo-oculto').click();" class="p-8 border-2 border-dashed border-slate-700 hover:border-indigo-500 transition rounded-2xl text-center cursor-pointer bg-slate-900/50">
+                    <div onclick="dispararUpload()" class="p-8 border-2 border-dashed border-slate-700 hover:border-indigo-500 transition rounded-2xl text-center cursor-pointer bg-slate-900/50">
                         <i class="fa-solid fa-cloud-arrow-up text-3xl text-indigo-400 mb-2"></i>
                         <p class="text-sm font-semibold text-slate-200">Upload de Documento (PDF, XML, OFX, XLSX, PNG, JPG)</p>
                         <p class="text-xs text-slate-500 mt-1">Arraste e solte ficheiros aqui ou <span class="text-indigo-400 underline">clique para procurar no computador</span></p>
-                    </div>
-
-                    <div id="status-upload" class="hidden p-4 bg-emerald-950/40 border border-emerald-700/50 rounded-xl text-xs text-emerald-300 flex items-center space-x-2">
-                        <span>✅</span> <span id="nome-arquivo-carregado">Ficheiro processado com IA com sucesso!</span>
                     </div>
                 </div>
             `,
@@ -232,17 +249,13 @@
                 <div class="space-y-6">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xl font-bold text-white">Módulo de Entradas & OCR Inteligente</h2>
-                        <button onclick="document.getElementById('input-arquivo-oculto').click();" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow cursor-pointer">📥 Enviar Nota Fiscal / Ficheiro</button>
+                        <button onclick="dispararUpload()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow cursor-pointer">📥 Enviar Nota Fiscal / Ficheiro</button>
                     </div>
                     
-                    <div onclick="document.getElementById('input-arquivo-oculto').click();" class="p-8 border-2 border-dashed border-slate-700 hover:border-indigo-500 transition rounded-2xl text-center cursor-pointer bg-slate-900/50">
+                    <div onclick="dispararUpload()" class="p-8 border-2 border-dashed border-slate-700 hover:border-indigo-500 transition rounded-2xl text-center cursor-pointer bg-slate-900/50">
                         <i class="fa-solid fa-cloud-arrow-up text-3xl text-indigo-400 mb-2"></i>
                         <p class="text-sm font-semibold text-slate-200">Carregue extratos bancários, notas fiscais (PDF/XML) ou recibos</p>
                         <p class="text-xs text-slate-500 mt-1">Suporta PDF, XML, OFX, PNG e JPG • <span class="text-indigo-400 underline">Clique para selecionar</span></p>
-                    </div>
-
-                    <div id="status-upload-2" class="hidden p-4 bg-emerald-950/40 border border-emerald-700/50 rounded-xl text-xs text-emerald-300 flex items-center space-x-2">
-                        <span>✅</span> <span id="nome-arquivo-carregado-2">Ficheiro processado com IA com sucesso!</span>
                     </div>
 
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
@@ -251,7 +264,7 @@
                             <thead class="text-slate-400 border-b border-slate-800">
                                 <tr><th class="pb-3">Documento / Ficheiro</th><th class="pb-3">Emissor</th><th class="pb-3">Valor Estimado</th><th class="pb-3">Status IA</th></tr>
                             </thead>
-                            <tbody id="tabela-entradas-corpo" class="divide-y divide-slate-800/60 text-slate-300">
+                            <tbody class="divide-y divide-slate-800/60 text-slate-300">
                                 ${listaDocumentosOCR.map(item => `
                                     <tr>
                                         <td class="py-3 font-medium text-white">${item.doc}</td>
@@ -399,7 +412,14 @@
             `
         };
 
-        // Funções de Controlo
+        // Função universal para abrir a janela de ficheiros do computador
+        function dispararUpload() {
+            const input = document.getElementById('input-arquivo-oculto');
+            if (input) {
+                input.click();
+            }
+        }
+
         function entrarNoSistema() {
             const escritorio = document.getElementById('select-escritorio').value;
             const emailUser = document.getElementById('email-input').value;
@@ -461,7 +481,6 @@
                 container.appendChild(novoItem);
             }
 
-            // Atualiza também o select do topo
             const selectTopo = document.getElementById('seletor-cliente-topo');
             if(selectTopo) {
                 const opt = document.createElement('option');
@@ -503,29 +522,6 @@
                 document.getElementById('lanc-valor').value = '';
                 document.getElementById('lanc-debito').value = '';
                 document.getElementById('lanc-credito').value = '';
-            }
-        }
-
-        // FUNÇÃO DE UPLOAD: Adiciona o ficheiro enviado diretamente à tabela de entradas do Módulo 2
-        function lidarComUploadReal(input) {
-            if (input.files && input.files.length > 0) {
-                for (let i = 0; i < input.files.length; i++) {
-                    const nomeArquivo = input.files[i].name;
-                    listaDocumentosOCR.unshift({
-                        doc: nomeArquivo,
-                        emissor: clienteAtual.split(' ')[0],
-                        valor: "R$ " + (Math.random() * 5000 + 100).toFixed(2).replace('.', ','),
-                        status: "Processado via Gemini OCR"
-                    });
-                }
-
-                // Se estivermos no Módulo 2 ou Dashboard, atualiza a interface
-                const titulo = document.getElementById('titulo-pagina').innerText;
-                if (titulo.includes('Entradas') || titulo.includes('Dashboard')) {
-                    mudarModulo(titulo.includes('Entradas') ? 'entradas' : 'dashboard');
-                }
-
-                alert(`Ficheiro(s) carregado(s) e processados com IA com sucesso!`);
             }
         }
 
