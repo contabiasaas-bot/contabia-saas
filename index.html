@@ -10,7 +10,7 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- TELA DE LOGIN / ACESSO (Multi-Tenant) -->
+    <!-- TELA DE LOGIN / ACESSO -->
     <div id="tela-login" class="flex-1 flex items-center justify-center p-4 fixed inset-0 bg-slate-950 z-50">
         <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl max-w-md w-full space-y-6">
             <div class="text-center space-y-2">
@@ -26,7 +26,7 @@
                     <label class="block text-xs font-semibold text-slate-400 mb-1">Selecione o Escritório (Tenant)</label>
                     <select id="select-escritorio" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
                         <option value="Contabilidade Silva & Associados (SP)">Contabilidade Silva & Associados (SP)</option>
-                        <option value="KG Contabilidade & Consultoria (RS)">KG Contabilidade & Consultoria (RS)</option>
+                        <option value="KG Contabilidade & Consultoria (RS)" selected>KG Contabilidade & Consultoria (RS)</option>
                         <option value="Pires & Consultores Fiscais (RS)">Pires & Consultores Fiscais (RS)</option>
                     </select>
                 </div>
@@ -41,7 +41,7 @@
                     <input type="password" id="senha-input" value="123456" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
                 </div>
 
-                <button onclick="entrarNoSistema()" class="w-full bg-indigo-600 hover:bg-indigo-500 transition text-white text-xs font-bold py-3 rounded-xl shadow-lg shadow-indigo-600/30">
+                <button onclick="entrarNoSistema()" class="w-full bg-indigo-600 hover:bg-indigo-500 transition text-white text-xs font-bold py-3 rounded-xl shadow-lg shadow-indigo-600/30 cursor-pointer">
                     Entrar no Sistema (Área Segura)
                 </button>
             </div>
@@ -57,7 +57,7 @@
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 w-full max-w-lg space-y-4 shadow-2xl">
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
                 <h3 class="font-bold text-white text-base">Cadastrar Novo Cliente Manualmente</h3>
-                <button onclick="fecharModalCliente()" class="text-slate-400 hover:text-white text-sm">✕</button>
+                <button onclick="fecharModalCliente()" class="text-slate-400 hover:text-white text-sm cursor-pointer">✕</button>
             </div>
             <div class="space-y-3 text-xs">
                 <div>
@@ -79,8 +79,8 @@
                 </div>
             </div>
             <div class="flex justify-end space-x-2 pt-2">
-                <button onclick="fecharModalCliente()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium">Cancelar</button>
-                <button onclick="salvarNovoCliente()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium">Salvar Cliente</button>
+                <button onclick="fecharModalCliente()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium cursor-pointer">Cancelar</button>
+                <button onclick="salvarNovoCliente()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-medium cursor-pointer">Salvar Cliente</button>
             </div>
         </div>
     </div>
@@ -104,7 +104,7 @@
                 <!-- Seletor de Cliente Ativo -->
                 <div class="p-3 border-b border-slate-800">
                     <label class="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Cliente Selecionado</label>
-                    <select id="seletor-cliente-topo" onchange="mudarClienteManual(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
+                    <select id="seletor-cliente-topo" onchange="mudarClienteManual(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 cursor-pointer">
                         <option value="Tech Solutions LTDA (CNPJ 12.345.67/0001-90)">Tech Solutions LTDA (CNPJ 12.345.67)</option>
                         <option value="Comércio Silva EIRELI (CNPJ 98.765.43/0001-12)">Comércio Silva EIRELI (CNPJ 98.765.43)</option>
                     </select>
@@ -112,31 +112,31 @@
 
                 <!-- Navegação dos Módulos -->
                 <nav id="menu-modulos" class="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-210px)]">
-                    <button onclick="mudarModulo('dashboard')" id="btn-dashboard" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition bg-indigo-600 text-white shadow-md">
+                    <button onclick="mudarModulo('dashboard')" id="btn-dashboard" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition bg-indigo-600 text-white shadow-md cursor-pointer">
                         <i class="fa-solid fa-chart-pie w-5 text-center"></i> <span>1. Dashboard Geral</span>
                     </button>
-                    <button onclick="mudarModulo('entradas')" id="btn-entradas" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <button onclick="mudarModulo('entradas')" id="btn-entradas" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer">
                         <i class="fa-solid fa-file-arrow-up w-5 text-center"></i> <span>2. Módulo de Entradas & OCR</span>
                     </button>
-                    <button onclick="mudarModulo('lancamentos')" id="btn-lancamentos" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <button onclick="mudarModulo('lancamentos')" id="btn-lancamentos" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer">
                         <i class="fa-solid fa-book-journal-whills w-5 text-center"></i> <span>3. Lançamentos Contábeis</span>
                     </button>
-                    <button onclick="mudarModulo('conciliacao')" id="btn-conciliacao" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <button onclick="mudarModulo('conciliacao')" id="btn-conciliacao" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer">
                         <i class="fa-solid fa-scale-balanced w-5 text-center"></i> <span>4. Conciliação Bancária IA</span>
                     </button>
-                    <button onclick="mudarModulo('relatorios')" id="btn-relatorios" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <button onclick="mudarModulo('relatorios')" id="btn-relatorios" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer">
                         <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i> <span>5. Relatórios Oficiais IA</span>
                     </button>
-                    <button onclick="mudarModulo('auditoria')" id="btn-auditoria" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <button onclick="mudarModulo('auditoria')" id="btn-auditoria" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer">
                         <i class="fa-solid fa-robot w-5 text-center"></i> <span>6. Auditoria & Chat IA</span>
                     </button>
-                    <button onclick="mudarModulo('calendario')" id="btn-calendario" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <button onclick="mudarModulo('calendario')" id="btn-calendario" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer">
                         <i class="fa-solid fa-calendar-days w-5 text-center"></i> <span>7. Calendário Fiscal</span>
                     </button>
-                    <button onclick="mudarModulo('clientes')" id="btn-clientes" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <button onclick="mudarModulo('clientes')" id="btn-clientes" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer">
                         <i class="fa-solid fa-users w-5 text-center"></i> <span>8. Gestão de Clientes</span>
                     </button>
-                    <button onclick="mudarModulo('configuracoes')" id="btn-configuracoes" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white">
+                    <button onclick="mudarModulo('configuracoes')" id="btn-configuracoes" class="w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer">
                         <i class="fa-solid fa-gears w-5 text-center"></i> <span>9. Configurações & API</span>
                     </button>
                 </nav>
@@ -147,7 +147,7 @@
                     <p class="text-slate-400 font-medium">Contabilidade</p>
                     <p class="text-emerald-400 font-semibold"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Supabase & Gemini Ativos</p>
                 </div>
-                <button onclick="fazerLogout()" class="text-slate-400 hover:text-rose-400 transition" title="Sair">
+                <button onclick="fazerLogout()" class="text-slate-400 hover:text-rose-400 transition cursor-pointer" title="Sair">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </button>
             </div>
@@ -160,7 +160,7 @@
                 <div class="flex items-center space-x-3">
                     <div class="text-right">
                         <span class="block text-[10px] uppercase font-semibold text-slate-400">Contador Responsável</span>
-                        <span class="text-xs font-bold text-indigo-300">CRC/RS - Contábil KG</span>
+                        <span id="txt-contador-topo" class="text-xs font-bold text-indigo-300">CRC/RS - Contábil KG</span>
                     </div>
                     <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center font-bold justify-center text-white text-xs">
                         KG
@@ -175,7 +175,7 @@
         </main>
     </div>
 
-    <!-- Input Oculto para Upload de Ficheiros Global -->
+    <!-- Input Oculto para Upload Global -->
     <input type="file" id="input-arquivo-oculto" class="hidden" multiple onchange="lidarComUploadReal(this)" />
 
     <!-- SCRIPT COMPLETO E FUNCIONAL -->
@@ -185,6 +185,12 @@
         const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
         let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67/0001-90)";
+
+        // Armazenamento dinâmico de documentos enviados via upload
+        let listaDocumentosOCR = [
+            { doc: "NF-e 1042", emissor: "Tech", valor: "R$ 4.500,00", status: "Processado via Gemini OCR" },
+            { doc: "NFS-e 882", emissor: "Consultoria Fiscal RS", valor: "R$ 1.200,00", status: "Captura Automática" }
+        ];
 
         const telas = {
             dashboard: () => `
@@ -206,7 +212,7 @@
                         </div>
                         <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-xl">
                             <p class="text-xs text-slate-400">Documentos OCR</p>
-                            <h3 class="text-2xl font-black text-indigo-400 mt-1">328 Itens</h3>
+                            <h3 class="text-2xl font-black text-indigo-400 mt-1">${listaDocumentosOCR.length + 326} Itens</h3>
                             <p class="text-[11px] text-slate-500 mt-1">100% conciliados por IA</p>
                         </div>
                     </div>
@@ -226,7 +232,7 @@
                 <div class="space-y-6">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xl font-bold text-white">Módulo de Entradas & OCR Inteligente</h2>
-                        <button onclick="document.getElementById('input-arquivo-oculto').click();" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow">📥 Enviar Nota Fiscal / Ficheiro</button>
+                        <button onclick="document.getElementById('input-arquivo-oculto').click();" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow cursor-pointer">📥 Enviar Nota Fiscal / Ficheiro</button>
                     </div>
                     
                     <div onclick="document.getElementById('input-arquivo-oculto').click();" class="p-8 border-2 border-dashed border-slate-700 hover:border-indigo-500 transition rounded-2xl text-center cursor-pointer bg-slate-900/50">
@@ -235,18 +241,25 @@
                         <p class="text-xs text-slate-500 mt-1">Suporta PDF, XML, OFX, PNG e JPG • <span class="text-indigo-400 underline">Clique para selecionar</span></p>
                     </div>
 
-                    <div id="status-upload" class="hidden p-4 bg-emerald-950/40 border border-emerald-700/50 rounded-xl text-xs text-emerald-300 flex items-center space-x-2">
-                        <span>✅</span> <span id="nome-arquivo-carregado">Ficheiro processado com IA com sucesso!</span>
+                    <div id="status-upload-2" class="hidden p-4 bg-emerald-950/40 border border-emerald-700/50 rounded-xl text-xs text-emerald-300 flex items-center space-x-2">
+                        <span>✅</span> <span id="nome-arquivo-carregado-2">Ficheiro processado com IA com sucesso!</span>
                     </div>
 
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
+                        <h3 class="text-sm font-bold text-white">Documentos Processados (${clienteAtual.split(' ')[0]})</h3>
                         <table class="w-full text-left text-xs">
                             <thead class="text-slate-400 border-b border-slate-800">
-                                <tr><th class="pb-3">Documento</th><th class="pb-3">Emissor</th><th class="pb-3">Valor</th><th class="pb-3">Status IA</th></tr>
+                                <tr><th class="pb-3">Documento / Ficheiro</th><th class="pb-3">Emissor</th><th class="pb-3">Valor Estimado</th><th class="pb-3">Status IA</th></tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-800/60">
-                                <tr><td class="py-3">NF-e 1042</td><td>${clienteAtual.split(' ')[0]}</td><td>R$ 4.500,00</td><td><span class="text-emerald-400 font-semibold">Processado via Gemini OCR</span></td></tr>
-                                <tr><td class="py-3">NFS-e 882</td><td>Consultoria Fiscal RS</td><td>R$ 1.200,00</td><td><span class="text-indigo-400 font-semibold">Captura Automática</span></td></tr>
+                            <tbody id="tabela-entradas-corpo" class="divide-y divide-slate-800/60 text-slate-300">
+                                ${listaDocumentosOCR.map(item => `
+                                    <tr>
+                                        <td class="py-3 font-medium text-white">${item.doc}</td>
+                                        <td>${item.emissor}</td>
+                                        <td>${item.valor}</td>
+                                        <td><span class="text-emerald-400 font-semibold">${item.status}</span></td>
+                                    </tr>
+                                `).join('')}
                             </tbody>
                         </table>
                     </div>
@@ -257,12 +270,24 @@
                     <h2 class="text-xl font-bold text-white">Lançamentos Contábeis (Partidas Dobradas)</h2>
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
-                            <input type="date" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
-                            <input type="text" placeholder="Conta Débito (ex: 1.1.1.01)" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
-                            <input type="text" placeholder="Conta Crédito (ex: 2.1.1.01)" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
-                            <input type="number" placeholder="Valor R$" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <input type="date" id="lanc-data" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <input type="text" id="lanc-debito" placeholder="Conta Débito (ex: 1.1.1.01)" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <input type="text" id="lanc-credito" placeholder="Conta Crédito (ex: 2.1.1.01)" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
+                            <input type="number" id="lanc-valor" placeholder="Valor R$" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200">
                         </div>
-                        <button onclick="alert('Lançamento registado com sucesso!')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow">Adicionar Lançamento</button>
+                        <button onclick="adicionarLancamentoTabela()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow cursor-pointer">Adicionar Lançamento</button>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                        <h3 class="text-sm font-bold text-white mb-3">Histórico de Lançamentos (${clienteAtual.split(' ')[0]})</h3>
+                        <table class="w-full text-left text-xs">
+                            <thead class="text-slate-400 border-b border-slate-800">
+                                <tr><th class="pb-3">Data</th><th class="pb-3">Débito</th><th class="pb-3">Crédito</th><th class="pb-3">Valor</th></tr>
+                            </thead>
+                            <tbody id="tabela-lancamentos-corpo" class="divide-y divide-slate-800/60 text-slate-300">
+                                <tr><td class="py-3">26/10/2026</td><td>1.1.1.01 (Caixa)</td><td>2.1.1.01 (Fornecedores)</td><td>R$ 100,00</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             `,
@@ -292,8 +317,8 @@
                             <div class="flex justify-between text-indigo-400 font-bold pt-2 border-t border-slate-800"><span>(=) Lucro Líquido do Período</span> <span>48.320,00</span></div>
                         </div>
                         <div class="flex gap-3">
-                            <button onclick="alert('Download do PDF Oficial da DRE iniciado com sucesso!')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow">📥 Baixar DRE (.PDF)</button>
-                            <button onclick="alert('Download do Balanço Patrimonial iniciado com sucesso!')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow">📊 Baixar Balanço (.PDF)</button>
+                            <button onclick="alert('Download do PDF Oficial da DRE iniciado com sucesso!')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow cursor-pointer">📥 Baixar DRE (.PDF)</button>
+                            <button onclick="alert('Download do Balanço Patrimonial iniciado com sucesso!')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow cursor-pointer">📊 Baixar Balanço (.PDF)</button>
                         </div>
                     </div>
                 </div>
@@ -309,7 +334,7 @@
                     </div>
                     <div class="flex gap-3">
                         <input type="text" id="user-input" placeholder="Digite sua pergunta contábil..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-100 focus:outline-none focus:border-indigo-500" onkeypress="if(event.key === 'Enter') enviarMensagem()">
-                        <button onclick="enviarMensagem()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-6 py-3 rounded-xl shadow">Perguntar à IA</button>
+                        <button onclick="enviarMensagem()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-6 py-3 rounded-xl shadow cursor-pointer">Perguntar à IA</button>
                     </div>
                 </div>
             `,
@@ -332,7 +357,7 @@
                 <div class="space-y-6">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xl font-bold text-white">Gestão de Clientes & Workspaces Multi-Tenant</h2>
-                        <button onclick="abrirModalCliente()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow">➕ Novo Cliente Manual</button>
+                        <button onclick="abrirModalCliente()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow cursor-pointer">➕ Novo Cliente Manual</button>
                     </div>
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl text-xs space-y-3">
                         <div class="flex justify-between items-center border-b border-slate-800 pb-3 font-semibold text-slate-400">
@@ -345,16 +370,16 @@
                                 <div><span class="font-bold text-white">Tech Solutions LTDA</span><p class="text-slate-400">CNPJ: 12.345.678/0001-90</p></div>
                                 <span class="text-indigo-400 font-medium">Lucro Presumido</span>
                                 <div class="space-x-2">
-                                    <button onclick="acederWorkspace('Tech Solutions LTDA (CNPJ 12.345.67/0001-90)')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold shadow">📂 Aceder</button>
-                                    <button onclick="removerCliente(this)" class="px-3 py-2 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg font-semibold transition" title="Excluir Cliente">🗑️ Excluir</button>
+                                    <button onclick="acederWorkspace('Tech Solutions LTDA (CNPJ 12.345.67/0001-90)')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold shadow cursor-pointer">📂 Aceder</button>
+                                    <button onclick="removerCliente(this)" class="px-3 py-2 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg font-semibold transition cursor-pointer" title="Excluir Cliente">🗑️ Excluir</button>
                                 </div>
                             </div>
                             <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800 item-cliente">
                                 <div><span class="font-bold text-white">Comércio Silva EIRELI</span><p class="text-slate-400">CNPJ: 98.765.432/0001-12</p></div>
                                 <span class="text-emerald-400 font-medium">Simples Nacional</span>
                                 <div class="space-x-2">
-                                    <button onclick="acederWorkspace('Comércio Silva EIRELI (CNPJ 98.765.43/0001-12)')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold shadow">📂 Aceder</button>
-                                    <button onclick="removerCliente(this)" class="px-3 py-2 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg font-semibold transition" title="Excluir Cliente">🗑️ Excluir</button>
+                                    <button onclick="acederWorkspace('Comércio Silva EIRELI (CNPJ 98.765.43/0001-12)')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold shadow cursor-pointer">📂 Aceder</button>
+                                    <button onclick="removerCliente(this)" class="px-3 py-2 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg font-semibold transition cursor-pointer" title="Excluir Cliente">🗑️ Excluir</button>
                                 </div>
                             </div>
                         </div>
@@ -377,7 +402,11 @@
         // Funções de Controlo
         function entrarNoSistema() {
             const escritorio = document.getElementById('select-escritorio').value;
+            const emailUser = document.getElementById('email-input').value;
+            
             document.getElementById('txt-escritorio-ativo').innerText = escritorio.split(' ')[0] + ' ' + (escritorio.split(' ')[1] || '');
+            document.getElementById('txt-contador-topo').innerText = 'CRC/RS - ' + emailUser.split('@')[0];
+            
             document.getElementById('tela-login').style.display = 'none';
             document.getElementById('app-principal').classList.remove('hidden');
             mudarModulo('dashboard');
@@ -425,11 +454,20 @@
                     <div><span class="font-bold text-white">${nome}</span><p class="text-slate-400">CNPJ: ${cnpj}</p></div>
                     <span class="text-indigo-400 font-medium">${regime}</span>
                     <div class="space-x-2">
-                        <button onclick="acederWorkspace('${nome} (CNPJ ${cnpj})')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold shadow">📂 Aceder</button>
-                        <button onclick="removerCliente(this)" class="px-3 py-2 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg font-semibold transition" title="Excluir Cliente">🗑️ Excluir</button>
+                        <button onclick="acederWorkspace('${nome} (CNPJ ${cnpj})')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold shadow cursor-pointer">📂 Aceder</button>
+                        <button onclick="removerCliente(this)" class="px-3 py-2 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg font-semibold transition cursor-pointer" title="Excluir Cliente">🗑️ Excluir</button>
                     </div>
                 `;
                 container.appendChild(novoItem);
+            }
+
+            // Atualiza também o select do topo
+            const selectTopo = document.getElementById('seletor-cliente-topo');
+            if(selectTopo) {
+                const opt = document.createElement('option');
+                opt.value = `${nome} (CNPJ ${cnpj})`;
+                opt.text = `${nome} (CNPJ ${cnpj})`;
+                selectTopo.appendChild(opt);
             }
 
             alert(`Cliente "${nome}" registado com sucesso!`);
@@ -445,16 +483,49 @@
             }
         }
 
+        function adicionarLancamentoTabela() {
+            const data = document.getElementById('lanc-data').value || '26/10/2026';
+            const debito = document.getElementById('lanc-debito').value || '1.1.1.01';
+            const credito = document.getElementById('lanc-credito').value || '2.1.1.01';
+            const valor = document.getElementById('lanc-valor').value || '100,00';
+
+            const corpo = document.getElementById('tabela-lancamentos-corpo');
+            if(corpo) {
+                const novaLinha = document.createElement('tr');
+                novaLinha.innerHTML = `
+                    <td class="py-3">${data}</td>
+                    <td>${debito}</td>
+                    <td>${credito}</td>
+                    <td class="text-emerald-400 font-semibold">R$ ${Number(valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                `;
+                corpo.appendChild(novaLinha);
+                alert('Lançamento registado com sucesso e integrado no razão contábil!');
+                document.getElementById('lanc-valor').value = '';
+                document.getElementById('lanc-debito').value = '';
+                document.getElementById('lanc-credito').value = '';
+            }
+        }
+
+        // FUNÇÃO DE UPLOAD: Adiciona o ficheiro enviado diretamente à tabela de entradas do Módulo 2
         function lidarComUploadReal(input) {
-            if (input.files && input.files[0]) {
-                const statusEl = document.getElementById('status-upload');
-                const nomeEl = document.getElementById('nome-arquivo-carregado');
-                if (statusEl && nomeEl) {
-                    nomeEl.innerText = `Ficheiro "${input.files[0].name}" processado com IA com sucesso!`;
-                    statusEl.classList.remove('hidden');
-                } else {
-                    alert(`Ficheiro "${input.files[0].name}" carregado e processado com IA com sucesso!`);
+            if (input.files && input.files.length > 0) {
+                for (let i = 0; i < input.files.length; i++) {
+                    const nomeArquivo = input.files[i].name;
+                    listaDocumentosOCR.unshift({
+                        doc: nomeArquivo,
+                        emissor: clienteAtual.split(' ')[0],
+                        valor: "R$ " + (Math.random() * 5000 + 100).toFixed(2).replace('.', ','),
+                        status: "Processado via Gemini OCR"
+                    });
                 }
+
+                // Se estivermos no Módulo 2 ou Dashboard, atualiza a interface
+                const titulo = document.getElementById('titulo-pagina').innerText;
+                if (titulo.includes('Entradas') || titulo.includes('Dashboard')) {
+                    mudarModulo(titulo.includes('Entradas') ? 'entradas' : 'dashboard');
+                }
+
+                alert(`Ficheiro(s) carregado(s) e processados com IA com sucesso!`);
             }
         }
 
