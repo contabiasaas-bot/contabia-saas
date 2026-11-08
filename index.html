@@ -187,22 +187,42 @@
 
   let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67)";
   let listaClientesSupabase = [];
-
-  window.chamarGeminiAPI = async function(promptCompleto) {
+window.chamarGeminiAPI = async function(promptCompleto) {
     if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("SUA_CHAVE")) {
-      return "⚠️ Erro: Chave de API do Gemini não configurada corretamente no código.";
+        alert("Por favor, configure a chave da API do Gemini.");
+        return "Erro: Chave de API não configurada.";
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-    
+    // Endpoint oficial v1beta utilizando a chave AQ.
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
+
     try {
-      const resposta = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: promptCompleto }] }]
-        })
-      });
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ text: promptCompleto }]
+                }]
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error("Detalhes do Erro da API Gemini:", data);
+            return `Erro da API (${response.status}): ${data.error?.message || 'Falha na autenticação'}`;
+        }
+
+        return data.candidates[0].content.parts[0].text;
+    } catch (err) {
+        console.error("Erro na requisição:", err);
+        return "Erro ao conectar com o serviço do Gemini.";
+    }
+};
+ 
 
       const dados = await resposta.json();
       if (dados.candidates && dados.candidates[0]?.content?.parts?.[0]?.text) {
