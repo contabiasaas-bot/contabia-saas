@@ -182,15 +182,15 @@
     console.error("Erro ao inicializar Supabase:", e);
   }
 
-  // Chave API do Google Gemini armazenada em memória ou localStorage
-  let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || "";
+  // COLE A SUA CHAVE REAL EXATA ENTRE AS ASPAS ABAIXO:
+  let GEMINI_API_KEY = "SUA_CHAVE_COMPLETA_AQUI"; 
 
   let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67)";
   let listaClientesSupabase = [];
 
   window.chamarGeminiAPI = async function(promptCompleto) {
-    if (!GEMINI_API_KEY) {
-      return "⚠️ Atenção: Nenhuma chave de API do Gemini configurada. Vá ao módulo '9. Configurações & API', cole a sua chave do Google AI Studio e clique em 'Salvar Configurações'.";
+    if (!GEMINI_API_KEY || GEMINI_API_KEY.includes("SUA_CHAVE")) {
+      return "⚠️ Erro: Chave de API do Gemini não configurada corretamente no código.";
     }
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -270,8 +270,7 @@
     const novaChave = document.getElementById('input-gemini-key').value.trim();
     if (novaChave) {
       GEMINI_API_KEY = novaChave;
-      localStorage.setItem('gemini_api_key', novaChave);
-      alert('Chave API guardada com sucesso no navegador!');
+      alert('Chave atualizada com sucesso no código em execução!');
     } else {
       alert('Por favor, insira uma chave válida.');
     }
@@ -481,7 +480,7 @@
         <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-3">
           <div>
             <label class="text-slate-400 block mb-1">Chave API Google Gemini 1.5 Flash</label>
-            <input type="password" id="input-gemini-key" value="${GEMINI_API_KEY}" placeholder="Cole sua chave aqui (ex: AIzaSy...)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white">
+            <input type="password" id="input-gemini-key" value="${GEMINI_API_KEY}" placeholder="Cole sua chave aqui..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white">
           </div>
           <button type="button" onclick="salvarConfiguracoes()" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium">Salvar Configurações</button>
         </div>
@@ -493,7 +492,6 @@
     const conteudoFn = telas[nomeAba] || (() => `<div class="p-4 bg-slate-800 rounded-xl border border-slate-700">Módulo em execução para <strong>${clienteAtual}</strong></div>`);
     document.getElementById('conteudo-dinamico').innerHTML = conteudoFn();
     
-    // Se abrir configurações, preenche o input com a chave salva
     if (nomeAba === 'configuracoes') {
       const inputKey = document.getElementById('input-gemini-key');
       if (inputKey) inputKey.value = GEMINI_API_KEY;
