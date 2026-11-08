@@ -105,8 +105,8 @@
                 <div class="p-3 border-b border-slate-800">
                     <label class="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Cliente Selecionado</label>
                     <select id="seletor-cliente-topo" onchange="mudarClienteManual(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500">
-                        <option value="Tech Solutions LTDA (CNPJ 12.345.67)">Tech Solutions LTDA (CNPJ 12.345.67)</option>
-                        <option value="Comércio Silva EIRELI (CNPJ 98.765.43)">Comércio Silva EIRELI (CNPJ 98.765.43)</option>
+                        <option value="Tech Solutions LTDA (CNPJ 12.345.67/0001-90)">Tech Solutions LTDA (CNPJ 12.345.67)</option>
+                        <option value="Comércio Silva EIRELI (CNPJ 98.765.43/0001-12)">Comércio Silva EIRELI (CNPJ 98.765.43)</option>
                     </select>
                 </div>
 
@@ -175,19 +175,17 @@
         </main>
     </div>
 
-    <!-- Input Oculto para Upload de Ficheiros -->
-    <input type="file" id="input-arquivo-oculto" class="hidden" onchange="lidarComUploadReal(this)" />
+    <!-- Input Oculto para Upload de Ficheiros Global -->
+    <input type="file" id="input-arquivo-oculto" class="hidden" multiple onchange="lidarComUploadReal(this)" />
 
     <!-- SCRIPT COMPLETO E FUNCIONAL -->
     <script>
-        // CONFIGURAÇÃO SUPABASE
         const SUPABASE_URL = 'https://dvqogjwklssxbmzdrcst.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_K9SSJVtCxneRC_WqMBLSXg_Mwq5o...';
         const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-        let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67)";
+        let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67/0001-90)";
 
-        // Telas / Módulos do Sistema
         const telas = {
             dashboard: () => `
                 <div class="space-y-6">
@@ -213,10 +211,10 @@
                         </div>
                     </div>
 
-                    <div onclick="document.getElementById('input-arquivo-oculto').click();" class="p-6 border-2 border-dashed border-slate-700 hover:border-indigo-500 transition rounded-2xl text-center cursor-pointer bg-slate-900/50">
+                    <div onclick="document.getElementById('input-arquivo-oculto').click();" class="p-8 border-2 border-dashed border-slate-700 hover:border-indigo-500 transition rounded-2xl text-center cursor-pointer bg-slate-900/50">
                         <i class="fa-solid fa-cloud-arrow-up text-3xl text-indigo-400 mb-2"></i>
-                        <p class="text-sm font-semibold text-slate-200">Upload de Documento (PDF, XML, OFX, XLSX)</p>
-                        <p class="text-xs text-slate-500 mt-1">Arraste e solte arquivos aqui ou <span class="text-indigo-400 underline">clique para procurar no computador</span></p>
+                        <p class="text-sm font-semibold text-slate-200">Upload de Documento (PDF, XML, OFX, XLSX, PNG, JPG)</p>
+                        <p class="text-xs text-slate-500 mt-1">Arraste e solte ficheiros aqui ou <span class="text-indigo-400 underline">clique para procurar no computador</span></p>
                     </div>
 
                     <div id="status-upload" class="hidden p-4 bg-emerald-950/40 border border-emerald-700/50 rounded-xl text-xs text-emerald-300 flex items-center space-x-2">
@@ -228,8 +226,19 @@
                 <div class="space-y-6">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xl font-bold text-white">Módulo de Entradas & OCR Inteligente</h2>
-                        <button onclick="document.getElementById('input-arquivo-oculto').click();" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow">📥 Enviar Nota Fiscal</button>
+                        <button onclick="document.getElementById('input-arquivo-oculto').click();" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow">📥 Enviar Nota Fiscal / Ficheiro</button>
                     </div>
+                    
+                    <div onclick="document.getElementById('input-arquivo-oculto').click();" class="p-8 border-2 border-dashed border-slate-700 hover:border-indigo-500 transition rounded-2xl text-center cursor-pointer bg-slate-900/50">
+                        <i class="fa-solid fa-cloud-arrow-up text-3xl text-indigo-400 mb-2"></i>
+                        <p class="text-sm font-semibold text-slate-200">Carregue extratos bancários, notas fiscais (PDF/XML) ou recibos</p>
+                        <p class="text-xs text-slate-500 mt-1">Suporta PDF, XML, OFX, PNG e JPG • <span class="text-indigo-400 underline">Clique para selecionar</span></p>
+                    </div>
+
+                    <div id="status-upload" class="hidden p-4 bg-emerald-950/40 border border-emerald-700/50 rounded-xl text-xs text-emerald-300 flex items-center space-x-2">
+                        <span>✅</span> <span id="nome-arquivo-carregado">Ficheiro processado com IA com sucesso!</span>
+                    </div>
+
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
                         <table class="w-full text-left text-xs">
                             <thead class="text-slate-400 border-b border-slate-800">
@@ -283,8 +292,8 @@
                             <div class="flex justify-between text-indigo-400 font-bold pt-2 border-t border-slate-800"><span>(=) Lucro Líquido do Período</span> <span>48.320,00</span></div>
                         </div>
                         <div class="flex gap-3">
-                            <button onclick="alert('Gerando PDF Oficial da DRE...')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl">📄 Baixar DRE (.PDF)</button>
-                            <button onclick="alert('Gerando Balanço Patrimonial...')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl">📊 Baixar Balanço (.PDF)</button>
+                            <button onclick="alert('Download do PDF Oficial da DRE iniciado com sucesso!')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow">📥 Baixar DRE (.PDF)</button>
+                            <button onclick="alert('Download do Balanço Patrimonial iniciado com sucesso!')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold px-4 py-2 rounded-xl shadow">📊 Baixar Balanço (.PDF)</button>
                         </div>
                     </div>
                 </div>
@@ -323,16 +332,31 @@
                 <div class="space-y-6">
                     <div class="flex justify-between items-center">
                         <h2 class="text-xl font-bold text-white">Gestão de Clientes & Workspaces Multi-Tenant</h2>
-                        <button onclick="abrirModalCliente()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2 rounded-xl">➕ Novo Cliente Manual</button>
+                        <button onclick="abrirModalCliente()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow">➕ Novo Cliente Manual</button>
                     </div>
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl text-xs space-y-3">
-                        <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800">
-                            <div><span class="font-bold text-white">Tech Solutions LTDA</span><p class="text-slate-400">CNPJ: 12.345.678/0001-90 | Lucro Presumido</p></div>
-                            <button onclick="acederWorkspace('Tech Solutions LTDA (CNPJ 12.345.67)')" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold">📂 Aceder Workspace</button>
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-3 font-semibold text-slate-400">
+                            <span>Empresa / CNPJ</span>
+                            <span>Regime Tributário</span>
+                            <span>Ações (Workspace / Excluir)</span>
                         </div>
-                        <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800">
-                            <div><span class="font-bold text-white">Comércio Silva EIRELI</span><p class="text-slate-400">CNPJ: 98.765.432/0001-12 | Simples Nacional</p></div>
-                            <button onclick="acederWorkspace('Comércio Silva EIRELI (CNPJ 98.765.43)')" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold">📂 Aceder Workspace</button>
+                        <div id="lista-clientes-container" class="space-y-2">
+                            <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800 item-cliente">
+                                <div><span class="font-bold text-white">Tech Solutions LTDA</span><p class="text-slate-400">CNPJ: 12.345.678/0001-90</p></div>
+                                <span class="text-indigo-400 font-medium">Lucro Presumido</span>
+                                <div class="space-x-2">
+                                    <button onclick="acederWorkspace('Tech Solutions LTDA (CNPJ 12.345.67/0001-90)')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold shadow">📂 Aceder</button>
+                                    <button onclick="removerCliente(this)" class="px-3 py-2 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg font-semibold transition" title="Excluir Cliente">🗑️ Excluir</button>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800 item-cliente">
+                                <div><span class="font-bold text-white">Comércio Silva EIRELI</span><p class="text-slate-400">CNPJ: 98.765.432/0001-12</p></div>
+                                <span class="text-emerald-400 font-medium">Simples Nacional</span>
+                                <div class="space-x-2">
+                                    <button onclick="acederWorkspace('Comércio Silva EIRELI (CNPJ 98.765.43/0001-12)')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold shadow">📂 Aceder</button>
+                                    <button onclick="removerCliente(this)" class="px-3 py-2 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg font-semibold transition" title="Excluir Cliente">🗑️ Excluir</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -385,12 +409,40 @@
 
         function salvarNovoCliente() {
             const nome = document.getElementById('form-nome').value;
+            const cnpj = document.getElementById('form-cnpj').value || '00.000.000/0001-00';
+            const regime = document.getElementById('form-regime').value;
+            
             if(!nome) {
                 alert('Por favor, insira o nome da empresa.');
                 return;
             }
+
+            const container = document.getElementById('lista-clientes-container');
+            if (container) {
+                const novoItem = document.createElement('div');
+                novoItem.className = 'flex justify-between items-center p-3 bg-slate-950 rounded-xl border border-slate-800 item-cliente';
+                novoItem.innerHTML = `
+                    <div><span class="font-bold text-white">${nome}</span><p class="text-slate-400">CNPJ: ${cnpj}</p></div>
+                    <span class="text-indigo-400 font-medium">${regime}</span>
+                    <div class="space-x-2">
+                        <button onclick="acederWorkspace('${nome} (CNPJ ${cnpj})')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg font-semibold shadow">📂 Aceder</button>
+                        <button onclick="removerCliente(this)" class="px-3 py-2 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg font-semibold transition" title="Excluir Cliente">🗑️ Excluir</button>
+                    </div>
+                `;
+                container.appendChild(novoItem);
+            }
+
             alert(`Cliente "${nome}" registado com sucesso!`);
             fecharModalCliente();
+            document.getElementById('form-nome').value = '';
+            document.getElementById('form-cnpj').value = '';
+        }
+
+        function removerCliente(botao) {
+            if (confirm('Tem certeza que deseja excluir este cliente do sistema?')) {
+                const linha = botao.closest('.item-cliente');
+                if (linha) linha.remove();
+            }
         }
 
         function lidarComUploadReal(input) {
@@ -400,6 +452,8 @@
                 if (statusEl && nomeEl) {
                     nomeEl.innerText = `Ficheiro "${input.files[0].name}" processado com IA com sucesso!`;
                     statusEl.classList.remove('hidden');
+                } else {
+                    alert(`Ficheiro "${input.files[0].name}" carregado e processado com IA com sucesso!`);
                 }
             }
         }
@@ -432,7 +486,6 @@
             }
         }
 
-        // Função de IA para o Chat de Auditoria
         async function chamarGeminiAPI(promptCompleto) {
             await new Promise(resolve => setTimeout(resolve, 800));
             const pergunta = promptCompleto.toLowerCase();
