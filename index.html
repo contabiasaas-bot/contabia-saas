@@ -182,13 +182,17 @@
     console.error("Erro ao inicializar Supabase:", e);
   }
 
-  // Chave API do Google Gemini (substitua aqui caso necessário)
-  let GEMINI_API_KEY = "SUA_CHAVE_COMPLETA_AQUI"; 
+  // Chave API do Google Gemini armazenada em memória ou localStorage
+  let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || "";
 
   let clienteAtual = "Tech Solutions LTDA (CNPJ 12.345.67)";
   let listaClientesSupabase = [];
 
   window.chamarGeminiAPI = async function(promptCompleto) {
+    if (!GEMINI_API_KEY) {
+      return "⚠️ Atenção: Nenhuma chave de API do Gemini configurada. Vá ao módulo '9. Configurações & API', cole a sua chave do Google AI Studio e clique em 'Salvar Configurações'.";
+    }
+
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
     
     try {
@@ -207,11 +211,11 @@
         console.error("Erro no Gemini:", dados.error.message);
         return `Erro da API: ${dados.error.message}`;
       } else {
-        return null;
+        return "Erro: A API não retornou conteúdo válido.";
       }
     } catch (erro) {
       console.error("Falha na chamada ao Gemini:", erro);
-      return null;
+      return "Erro de conexão com a API do Gemini.";
     }
   };
 
@@ -263,10 +267,13 @@
   };
 
   window.salvarConfiguracoes = function() {
-    const novaChave = document.getElementById('input-gemini-key').value;
+    const novaChave = document.getElementById('input-gemini-key').value.trim();
     if (novaChave) {
       GEMINI_API_KEY = novaChave;
-      alert('Chave atualizada com sucesso!');
+      localStorage.setItem('gemini_api_key', novaChave);
+      alert('Chave API guardada com sucesso no navegador!');
+    } else {
+      alert('Por favor, insira uma chave válida.');
     }
   };
 
@@ -336,7 +343,7 @@
     if (respostaIA) {
       historico.innerHTML += `<p><strong class="text-blue-400">🤖 Gemini 1.5 Flash:</strong> ${respostaIA.replace(/\n/g, '<br>')}</p>`;
     } else {
-      historico.innerHTML += `<p class="text-red-400"><strong>Erro:</strong> Não foi possível obter resposta. Verifique sua chave API.</p>`;
+      historico.innerHTML += `<p class="text-red-400"><strong>Erro:</strong> Não foi possível obter resposta da IA.</p>`;
     }
 
     historico.scrollTop = historico.scrollHeight;
@@ -474,7 +481,7 @@
         <div class="p-4 bg-slate-800 rounded-xl border border-slate-700 text-xs space-y-3">
           <div>
             <label class="text-slate-400 block mb-1">Chave API Google Gemini 1.5 Flash</label>
-            <input type="password" id="input-gemini-key" value="${GEMINI_API_KEY}" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white">
+            <input type="password" id="input-gemini-key" value="${GEMINI_API_KEY}" placeholder="Cole sua chave aqui (ex: AIzaSy...)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white">
           </div>
           <button type="button" onclick="salvarConfiguracoes()" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium">Salvar Configurações</button>
         </div>
@@ -485,6 +492,12 @@
   window.mudarAba = function(nomeAba, elemento) {
     const conteudoFn = telas[nomeAba] || (() => `<div class="p-4 bg-slate-800 rounded-xl border border-slate-700">Módulo em execução para <strong>${clienteAtual}</strong></div>`);
     document.getElementById('conteudo-dinamico').innerHTML = conteudoFn();
+    
+    // Se abrir configurações, preenche o input com a chave salva
+    if (nomeAba === 'configuracoes') {
+      const inputKey = document.getElementById('input-gemini-key');
+      if (inputKey) inputKey.value = GEMINI_API_KEY;
+    }
     
     const titulosMap = {
       dashboard: '1. Dashboard Geral',
@@ -509,7 +522,6 @@
     }
   };
 
-  // Inicialização padrão
   window.mudarAba('dashboard', document.querySelector('#menu-modulos button'));
 </script>
 </body>
